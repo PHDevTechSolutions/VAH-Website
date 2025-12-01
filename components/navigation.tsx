@@ -10,7 +10,7 @@ export function Navigation() {
     { label: "ABOUT US", href: "/about" },
     {
       label: "COMPANIES",
-      href: "#",
+      href: "/companies",
       dropdown: ["OKO", "Buildchem", "Progressive Dynamics", "Progressive Materials"],
     },
     {

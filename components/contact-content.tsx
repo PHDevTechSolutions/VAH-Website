@@ -62,7 +62,7 @@ export function ContactContent() {
                   Office Address
                 </h3>
                 <p className="text-sm md:text-base" style={{ color: "#FFFFFF" }}>
-                  Block 14, Brgy. Golden Mile Business Park, Lot 110TH Street, Maduya, Carmona, 4116 Cavite
+                  35th Floor Primex Tower, Edsa, corner Connecticut, San Juan City, 1503 Metro Manila
                 </p>
               </div>
             </div>

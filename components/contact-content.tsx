@@ -129,14 +129,14 @@ export function ContactContent() {
             {/* Map Container */}
             <div className="mt-12 rounded-lg overflow-hidden h-64 md:h-80">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3865.6840214285256!2d120.88269!3d14.05833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd6352a7b7e7cd%3A0x1234567890abcdef!2sBlock%2014%2C%20Golden%20Mile%20Business%20Park%2C%20Maduya%2C%20Carmona!5e0!3m2!1sen!2sph!4v1700000000000"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.951263777402!2d121.05629637497418!3d14.60185218588471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7ed028007bf%3A0xfa756d0be917a0cf!2sPrimex%20Tower!5e0!3m2!1sen!2sph!4v1764572060268!5m2!1sen!2sph"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-              />
+                />
             </div>
           </div>
 

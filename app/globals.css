@@ -156,3 +156,14 @@
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out;
 }
+
+/* Hide scrollbars on mobile while maintaining scroll functionality */
+.mobile-scroll-hide {
+  -webkit-scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.mobile-scroll-hide::-webkit-scrollbar {
+  display: none;
+}

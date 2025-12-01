@@ -14,22 +14,23 @@ export function Navigation() {
         background: "linear-gradient(180deg, #000000 0%, #261c12 100%)",
       }}
     >
-      <div className="hidden md:flex items-center">
+      {/* Logo - visible on all screen sizes */}
+      <div className="flex items-center">
         <Image
           src="/images/logo-vah.png"
           alt="VI Logo"
           width={40}
           height={40}
-          className="w-8 h-8 transition-transform duration-300 hover:scale-110 flex-shrink-0"
+          className="w-8 h-8 md:w-8 md:h-8 transition-transform duration-300 hover:scale-110 flex-shrink-0"
         />
       </div>
 
       {/* Desktop - Pill nav with centered nav items only */}
-      <div className="hidden md:flex items-center justify-center">
+      <div className="hidden md:flex items-center justify-center flex-1">
         <div
-          className="flex items-center justify-center gap-6 px-8 py-3 rounded-full backdrop-blur-xl border border-amber-600/30"
+          className="flex items-center justify-center gap-6 px-8 py-3 rounded-full backdrop-blur-xl border border-amber-600/30 shadow-lg"
           style={{
-            background: "linear-gradient(135deg, rgba(38, 28, 18, 0.6) 0%, rgba(26, 20, 16, 0.5) 100%)",
+            background: "linear-gradient(135deg, rgba(26, 20, 16, 0.9) 0%, rgba(18, 14, 10, 0.85) 100%)",
           }}
         >
           {navItems.map((item) => (
@@ -45,37 +46,9 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Tablet and Mobile Pill Container */}
-      <div className="md:hidden flex-1 flex items-center justify-center">
-        <div
-          className="flex items-center justify-center gap-2 px-3 py-2 rounded-full backdrop-blur-xl border border-amber-600/30"
-          style={{
-            background: "linear-gradient(135deg, rgba(220, 180, 133, 0.1) 0%, rgba(220, 180, 133, 0.05) 100%)",
-          }}
-        >
-          <Image
-            src="/images/logo-vah.png"
-            alt="VI Logo"
-            width={32}
-            height={32}
-            className="w-5 h-5 transition-transform duration-300 hover:scale-110"
-          />
-          {navItems.slice(0, 2).map((item) => (
-            <a
-              key={item}
-              href="#"
-              className="text-xs font-medium transition-all duration-300 whitespace-nowrap hover:opacity-80"
-              style={{ color: "#DCB485" }}
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      </div>
-
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden flex-shrink-0 p-2 absolute right-4"
+        className="md:hidden flex-shrink-0 p-2"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         style={{ color: "#DCB485" }}
       >

@@ -50,8 +50,7 @@ export function OurCompanies() {
             </h2>
           </div>
 
-          {/* Company Logos Grid - Centered */}
-          <div className="flex flex-wrap gap-6 md:gap-8 justify-center w-full">
+          <div className="flex flex-wrap gap-8 md:gap-12 justify-center w-full">
             {companies.map((company) => (
               <div
                 key={company.id}
@@ -76,12 +75,12 @@ export function OurCompanies() {
                 />
 
                 {/* Logo - tan color by default */}
-                <div className="relative p-4 md:p-6 flex items-center justify-center h-20 md:h-24 w-28 md:w-32 transition-all duration-300">
+                <div className="relative p-8 md:p-12 flex items-center justify-center h-40 md:h-48 w-56 md:w-64 transition-all duration-300">
                   <Image
                     src={company.logo || "/placeholder.svg"}
                     alt={company.name}
-                    width={120}
-                    height={60}
+                    width={150}
+                    height={80}
                     className="object-contain max-w-full max-h-full transition-all duration-300"
                     style={{
                       filter: hoveredCompany === company.id ? "brightness(1.2)" : "brightness(1) opacity(0.9)",

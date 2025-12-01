@@ -39,8 +39,8 @@ export function Hero() {
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in" style={{ color: "#DCB485" }}>
             Value Acquisitions Inc.
           </h1>
-          <p className="text-sm md:text-lg animate-fade-in" style={{ color: "#8b7765" }}>
-            powering brands in trade, distribution, and modern construction solutions.
+          <p className="text-sm md:text-lg animate-fade-in" style={{ color: "#FFFFFF" }}>
+            Powering brands in trade, distribution, and modern construction solutions.
           </p>
         </div>
 

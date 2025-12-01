@@ -158,26 +158,32 @@ export function Navigation() {
         >
           {navItems.map((item) => (
             <div key={item.label} className="relative">
-              <button
-                onClick={() =>
-                  item.dropdown
-                    ? setMobileExpandedDropdown(
-                        mobileExpandedDropdown === item.label ? null : item.label
-                      )
-                    : null
-                }
-                className="text-sm font-medium px-4 py-2 rounded transition-all duration-300 hover:opacity-80 block w-full text-left flex items-center justify-between"
-                style={{ color: "#DCB485" }}
-              >
-                {item.label}
-                {item.dropdown && (
+              {item.dropdown ? (
+                <button
+                  onClick={() =>
+                    setMobileExpandedDropdown(
+                      mobileExpandedDropdown === item.label ? null : item.label
+                    )
+                  }
+                  className="text-sm font-medium px-4 py-2 rounded transition-all duration-300 hover:opacity-80 block w-full text-left flex items-center justify-between"
+                  style={{ color: "#DCB485" }}
+                >
+                  {item.label}
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-300 ${
                       mobileExpandedDropdown === item.label ? "rotate-180" : ""
                     }`}
                   />
-                )}
-              </button>
+                </button>
+              ) : (
+                <a
+                  href={item.href}
+                  className="text-sm font-medium px-4 py-2 rounded transition-all duration-300 hover:opacity-80 block w-full text-left"
+                  style={{ color: "#DCB485" }}
+                >
+                  {item.label}
+                </a>
+              )}
               {item.dropdown && mobileExpandedDropdown === item.label && (
                 <div className="pl-4 flex flex-col gap-1 max-h-48 overflow-y-auto mobile-scroll-hide">
                   {item.dropdown.map((subitem) => (

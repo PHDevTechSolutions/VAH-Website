@@ -79,8 +79,8 @@ export function OurCompanies() {
                   <Image
                     src={company.logo || "/placeholder.svg"}
                     alt={company.name}
-                    width={150}
-                    height={80}
+                    width={220}
+                    height={150}
                     className="object-contain max-w-full max-h-full transition-all duration-300"
                     style={{
                       filter: hoveredCompany === company.id ? "brightness(1.2)" : "brightness(1) opacity(0.9)",

@@ -43,7 +43,7 @@ export function ContactContent() {
   }
 
   return (
-    <section className="flex-grow px-6 md:px-12 lg:px-16 py-12 md:py-16 lg:py-20" style={{ background: "#261c12" }}>
+    <section className="grow px-6 md:px-12 lg:px-16 py-12 md:py-16 lg:py-20" style={{ background: "#261c12" }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
           {/* Left Side - Contact Details */}
@@ -54,7 +54,7 @@ export function ContactContent() {
 
             {/* Office Address */}
             <div className="mb-8 flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <MapPin size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
@@ -62,14 +62,14 @@ export function ContactContent() {
                   Office Address
                 </h3>
                 <p className="text-sm md:text-base" style={{ color: "#FFFFFF" }}>
-                  35th Floor Primex Tower, Edsa, corner Connecticut, San Juan City, 1503 Metro Manila
+                  Block 14, Lot 1, 10TH Street, Golden Mile Business Park, Brgy. Maduya, City of Carmona, Cavite, Carmona, Philippines
                 </p>
               </div>
             </div>
 
             {/* Email */}
             <div className="mb-8 flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Mail size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
@@ -88,7 +88,7 @@ export function ContactContent() {
 
             {/* Telephone */}
             <div className="mb-8 flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Phone size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
@@ -107,7 +107,7 @@ export function ContactContent() {
 
             {/* Office Hours */}
             <div className="flex gap-4">
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <Clock size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
@@ -129,7 +129,7 @@ export function ContactContent() {
             {/* Map Container */}
             <div className="mt-12 rounded-lg overflow-hidden h-64 md:h-80">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.951263777402!2d121.05629637497418!3d14.60185218588471!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7ed028007bf%3A0xfa756d0be917a0cf!2sPrimex%20Tower!5e0!3m2!1sen!2sph!4v1764572060268!5m2!1sen!2sph"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15463.788358680811!2d121.07034672834733!3d14.314506154854623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d766f1ccefab%3A0x5da93d4097464345!2sGolden%20Mile%20Business%20Park!5e0!3m2!1sen!2sph!4v1764729906423!5m2!1sen!2sph"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

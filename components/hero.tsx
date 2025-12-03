@@ -37,7 +37,7 @@ export function Hero() {
         {/* Left Content */}
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in" style={{ color: "#DCB485" }}>
-            Value Acquisitions Inc.
+            Value Acquisitions Holdings Inc.
           </h1>
           <p className="text-sm md:text-lg animate-fade-in" style={{ color: "#FFFFFF" }}>
             Value Acquisitions Holdings Inc. is a holding company leading brands in trade, distribution, modern building materials, and industrial construction solutions.

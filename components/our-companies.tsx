@@ -50,7 +50,7 @@ export function OurCompanies() {
             </h2>
           </div>
 
-          <div className="flex flex-wrap gap-6 md:gap-10 justify-center w-full">
+          <div className="grid grid-cols-2 md:flex md:flex-wrap gap-4 md:gap-10 justify-center w-full">
             {companies.map((company) => (
               <div
                 key={company.id}
@@ -75,7 +75,7 @@ export function OurCompanies() {
                 />
 
                 {/* Logo - tan color by default */}
-                <div className="relative p-8 md:p-12 flex items-center justify-center h-40 md:h-48 w-56 md:w-64 transition-all duration-300">
+                <div className="relative p-6 md:p-12 flex items-center justify-center h-32 md:h-48 w-full md:w-64 transition-all duration-300">
                   <Image
                     src={company.logo || "/placeholder.svg"}
                     alt={company.name}

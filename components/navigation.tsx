@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useState, useEffect, useRef } from "react"
-import { ChevronDown } from "lucide-react"
+import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+import { ChevronDown } from "lucide-react";
 
 export function Navigation() {
   const navItems = [
@@ -36,23 +36,28 @@ export function Navigation() {
     },
     { label: "BLOGS", href: "/blogs" },
     { label: "CONTACT US", href: "/contact" },
-  ]
+  ];
 
-  const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const [mobileExpandedDropdown, setMobileExpandedDropdown] = useState<string | null>(null)
-  const desktopMenuRef = useRef<HTMLDivElement>(null)
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileExpandedDropdown, setMobileExpandedDropdown] = useState<
+    string | null
+  >(null);
+  const desktopMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (desktopMenuRef.current && !desktopMenuRef.current.contains(event.target as Node)) {
-        setOpenDropdown(null)
+      if (
+        desktopMenuRef.current &&
+        !desktopMenuRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav
@@ -72,11 +77,15 @@ export function Navigation() {
       </div>
 
       {/* DESKTOP MENU */}
-      <div className="hidden md:flex items-center justify-center flex-1" ref={desktopMenuRef}>
+      <div
+        className="hidden md:flex items-center justify-center flex-1"
+        ref={desktopMenuRef}
+      >
         <div
           className="flex items-center justify-center gap-6 px-8 py-3 rounded-full backdrop-blur-xl border border-amber-600/30 shadow-lg relative"
           style={{
-            background: "linear-gradient(135deg, rgba(26, 20, 16, 0.9) 0%, rgba(18, 14, 10, 0.85) 100%)",
+            background:
+              "linear-gradient(135deg, rgba(26, 20, 16, 0.9) 0%, rgba(18, 14, 10, 0.85) 100%)",
           }}
         >
           {navItems.map((item) => (
@@ -93,11 +102,15 @@ export function Navigation() {
               {/* ONLY CHEVRON CLICK */}
               {item.dropdown && (
                 <button
-                  onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
+                  onClick={() =>
+                    setOpenDropdown(
+                      openDropdown === item.label ? null : item.label
+                    )
+                  }
                   className="flex items-center"
                   style={{ color: "#DCB485" }} // added color style to make chevron visible
                 >
-                 <ChevronDown
+                  <ChevronDown
                     className={`w-4 h-4 transition-transform duration-300 ${
                       openDropdown === item.label ? "rotate-180" : ""
                     }`}
@@ -110,7 +123,11 @@ export function Navigation() {
                 <div
                   className={`absolute top-full left-1/2 transform -translate-x-1/2 mt-2 rounded-lg
                     border border-amber-600/30 backdrop-blur-xl shadow-lg p-4 min-w-max
-                    ${item.twoRows ? "grid grid-cols-2 gap-2" : "flex flex-col gap-2"}
+                    ${
+                      item.twoRows
+                        ? "grid grid-cols-2 gap-2"
+                        : "flex flex-col gap-2"
+                    }
                     ${
                       openDropdown === item.label
                         ? "opacity-100 visible pointer-events-auto"
@@ -118,12 +135,15 @@ export function Navigation() {
                     }
                     transition-all duration-200`}
                   style={{
-                    background: "linear-gradient(135deg, rgba(26, 20, 16, 0.95) 0%, rgba(18, 14, 10, 0.9) 100%)",
+                    background:
+                      "linear-gradient(135deg, rgba(26, 20, 16, 0.95) 0%, rgba(18, 14, 10, 0.9) 100%)",
                   }}
                 >
                   {item.dropdown.map((subitem) => (
                     <a
-                      key={typeof subitem === "string" ? subitem : subitem.label}
+                      key={
+                        typeof subitem === "string" ? subitem : subitem.label
+                      }
                       href={typeof subitem === "string" ? "#" : subitem.href}
                       className="text-sm px-3 py-2 rounded transition-all duration-200 hover:opacity-80 whitespace-nowrap"
                       style={{ color: "#DCB485" }}
@@ -144,8 +164,18 @@ export function Navigation() {
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         style={{ color: "#DCB485" }}
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
       </button>
 
@@ -161,7 +191,11 @@ export function Navigation() {
             <div key={item.label} className="relative">
               {item.dropdown ? (
                 <button
-                  onClick={() => setMobileExpandedDropdown(mobileExpandedDropdown === item.label ? null : item.label)}
+                  onClick={() =>
+                    setMobileExpandedDropdown(
+                      mobileExpandedDropdown === item.label ? null : item.label
+                    )
+                  }
                   className="text-sm font-medium px-4 py-2 rounded transition-all duration-300 hover:opacity-80 w-full text-left flex items-center justify-between"
                   style={{ color: "#DCB485" }}
                 >
@@ -185,7 +219,9 @@ export function Navigation() {
                 <div className="pl-4 flex flex-col gap-1 max-h-48 overflow-y-auto mobile-scroll-hide">
                   {item.dropdown.map((subitem) => (
                     <a
-                      key={typeof subitem === "string" ? subitem : subitem.label}
+                      key={
+                        typeof subitem === "string" ? subitem : subitem.label
+                      }
                       href={typeof subitem === "string" ? "#" : subitem.href}
                       className="text-xs px-2 py-1 rounded transition-all duration-300 hover:opacity-80 block wrap-break-word"
                       style={{ color: "#DCB485", opacity: 0.8 }}
@@ -200,5 +236,5 @@ export function Navigation() {
         </div>
       )}
     </nav>
-  )
+  );
 }

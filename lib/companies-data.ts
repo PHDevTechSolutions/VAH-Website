@@ -1,13 +1,13 @@
 export interface Company {
-  id: string
-  name: string
-  shortName: string
-  logo: string
-  category: string
-  description: string
-  longDescription: string
-  heroImage: string
-  highlights: string[]
+  id: string;
+  name: string;
+  shortName: string;
+  logo: string;
+  category: string;
+  description: string;
+  longDescription: string;
+  heroImage: string;
+  highlights: string[];
 }
 
 export const companiesData: Company[] = [
@@ -79,8 +79,8 @@ export const companiesData: Company[] = [
       "Industry expertise",
     ],
   },
-]
+];
 
 export function getCompanyById(id: string): Company | undefined {
-  return companiesData.find((company) => company.id === id)
+  return companiesData.find((company) => company.id === id);
 }

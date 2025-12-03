@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { MapPin, Mail, Phone, Clock } from "lucide-react"
+import { useState } from "react";
+import { MapPin, Mail, Phone, Clock } from "lucide-react";
 
 export function ContactContent() {
   const [formData, setFormData] = useState({
@@ -13,24 +13,26 @@ export function ContactContent() {
     phone: "",
     subject: "",
     message: "",
-  })
+  });
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsSubmitting(false)
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsSubmitting(false);
     // Reset form
     setFormData({
       fullName: "",
@@ -39,16 +41,22 @@ export function ContactContent() {
       phone: "",
       subject: "",
       message: "",
-    })
-  }
+    });
+  };
 
   return (
-    <section className="grow px-6 md:px-12 lg:px-16 py-12 md:py-16 lg:py-20" style={{ background: "#261c12" }}>
+    <section
+      className="grow px-6 md:px-12 lg:px-16 py-12 md:py-16 lg:py-20"
+      style={{ background: "#261c12" }}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
           {/* Left Side - Contact Details */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ color: "#DCB485" }}>
+            <h2
+              className="text-3xl md:text-4xl font-bold mb-8"
+              style={{ color: "#DCB485" }}
+            >
               Get in touch
             </h2>
 
@@ -58,11 +66,18 @@ export function ContactContent() {
                 <MapPin size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
-                <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: "#DCB485" }}>
+                <h3
+                  className="font-semibold mb-2 text-base md:text-lg"
+                  style={{ color: "#DCB485" }}
+                >
                   Office Address
                 </h3>
-                <p className="text-sm md:text-base" style={{ color: "#FFFFFF" }}>
-                  Block 14, Lot 1, 10TH Street, Golden Mile Business Park, Brgy. Maduya, City of Carmona, Cavite, Carmona, Philippines
+                <p
+                  className="text-sm md:text-base"
+                  style={{ color: "#FFFFFF" }}
+                >
+                  Block 14, Lot 1, 10TH Street, Golden Mile Business Park, Brgy.
+                  Maduya, City of Carmona, Cavite, Carmona, Philippines
                 </p>
               </div>
             </div>
@@ -73,7 +88,10 @@ export function ContactContent() {
                 <Mail size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
-                <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: "#DCB485" }}>
+                <h3
+                  className="font-semibold mb-2 text-base md:text-lg"
+                  style={{ color: "#DCB485" }}
+                >
                   Email
                 </h3>
                 <a
@@ -92,7 +110,10 @@ export function ContactContent() {
                 <Phone size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
-                <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: "#DCB485" }}>
+                <h3
+                  className="font-semibold mb-2 text-base md:text-lg"
+                  style={{ color: "#DCB485" }}
+                >
                   Telephone
                 </h3>
                 <a
@@ -111,16 +132,28 @@ export function ContactContent() {
                 <Clock size={24} style={{ color: "#DCB485" }} />
               </div>
               <div>
-                <h3 className="font-semibold mb-2 text-base md:text-lg" style={{ color: "#DCB485" }}>
+                <h3
+                  className="font-semibold mb-2 text-base md:text-lg"
+                  style={{ color: "#DCB485" }}
+                >
                   Office Hours
                 </h3>
-                <p className="text-sm md:text-base" style={{ color: "#FFFFFF" }}>
+                <p
+                  className="text-sm md:text-base"
+                  style={{ color: "#FFFFFF" }}
+                >
                   Monday - Friday: 9:00 AM - 6:00 PM
                 </p>
-                <p className="text-sm md:text-base" style={{ color: "#FFFFFF" }}>
+                <p
+                  className="text-sm md:text-base"
+                  style={{ color: "#FFFFFF" }}
+                >
                   Saturday: 10:00 AM - 4:00 PM
                 </p>
-                <p className="text-sm md:text-base" style={{ color: "#FFFFFF" }}>
+                <p
+                  className="text-sm md:text-base"
+                  style={{ color: "#FFFFFF" }}
+                >
                   Sunday: Closed
                 </p>
               </div>
@@ -136,13 +169,16 @@ export function ContactContent() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                />
+              />
             </div>
           </div>
 
           {/* Right Side - Contact Form */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ color: "#DCB485" }}>
+            <h2
+              className="text-3xl md:text-4xl font-bold mb-8"
+              style={{ color: "#DCB485" }}
+            >
               Send us a message
             </h2>
 
@@ -170,7 +206,10 @@ export function ContactContent() {
                     borderColor: "#3c3223",
                     borderWidth: "1px",
                   }}
-                  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(220, 180, 133, 0.1)")}
+                  onFocus={(e) =>
+                    (e.target.style.boxShadow =
+                      "0 0 0 3px rgba(220, 180, 133, 0.1)")
+                  }
                   onBlur={(e) => (e.target.style.boxShadow = "none")}
                 />
               </div>
@@ -197,7 +236,10 @@ export function ContactContent() {
                     borderColor: "#3c3223",
                     borderWidth: "1px",
                   }}
-                  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(220, 180, 133, 0.1)")}
+                  onFocus={(e) =>
+                    (e.target.style.boxShadow =
+                      "0 0 0 3px rgba(220, 180, 133, 0.1)")
+                  }
                   onBlur={(e) => (e.target.style.boxShadow = "none")}
                 />
               </div>
@@ -225,7 +267,10 @@ export function ContactContent() {
                     borderColor: "#3c3223",
                     borderWidth: "1px",
                   }}
-                  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(220, 180, 133, 0.1)")}
+                  onFocus={(e) =>
+                    (e.target.style.boxShadow =
+                      "0 0 0 3px rgba(220, 180, 133, 0.1)")
+                  }
                   onBlur={(e) => (e.target.style.boxShadow = "none")}
                 />
               </div>
@@ -253,7 +298,10 @@ export function ContactContent() {
                     borderColor: "#3c3223",
                     borderWidth: "1px",
                   }}
-                  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(220, 180, 133, 0.1)")}
+                  onFocus={(e) =>
+                    (e.target.style.boxShadow =
+                      "0 0 0 3px rgba(220, 180, 133, 0.1)")
+                  }
                   onBlur={(e) => (e.target.style.boxShadow = "none")}
                 />
               </div>
@@ -281,7 +329,10 @@ export function ContactContent() {
                     borderColor: "#3c3223",
                     borderWidth: "1px",
                   }}
-                  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(220, 180, 133, 0.1)")}
+                  onFocus={(e) =>
+                    (e.target.style.boxShadow =
+                      "0 0 0 3px rgba(220, 180, 133, 0.1)")
+                  }
                   onBlur={(e) => (e.target.style.boxShadow = "none")}
                 />
               </div>
@@ -308,7 +359,10 @@ export function ContactContent() {
                     borderColor: "#3c3223",
                     borderWidth: "1px",
                   }}
-                  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(220, 180, 133, 0.1)")}
+                  onFocus={(e) =>
+                    (e.target.style.boxShadow =
+                      "0 0 0 3px rgba(220, 180, 133, 0.1)")
+                  }
                   onBlur={(e) => (e.target.style.boxShadow = "none")}
                 />
               </div>
@@ -330,5 +384,5 @@ export function ContactContent() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const companies = [
   {
@@ -29,13 +29,16 @@ const companies = [
     logo: "/images/progma.png",
     href: "/companies/progma",
   },
-]
+];
 
 export function OurCompanies() {
-  const [hoveredCompany, setHoveredCompany] = useState<string | null>(null)
+  const [hoveredCompany, setHoveredCompany] = useState<string | null>(null);
 
   return (
-    <section className="py-16 md:py-40 px-4 md:px-8" style={{ backgroundColor: "#261c12" }}>
+    <section
+      className="py-16 md:py-40 px-4 md:px-8"
+      style={{ backgroundColor: "#261c12" }}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col items-center justify-center gap-12">
           {/* Title and Company Names - Centered */}
@@ -48,10 +51,14 @@ export function OurCompanies() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                transform: hoveredCompany ? "translateY(-10px)" : "translateY(0)",
+                transform: hoveredCompany
+                  ? "translateY(-10px)"
+                  : "translateY(0)",
               }}
             >
-              {hoveredCompany ? companies.find((c) => c.id === hoveredCompany)?.name : "Our Companies"}
+              {hoveredCompany
+                ? companies.find((c) => c.id === hoveredCompany)?.name
+                : "Our Companies"}
             </h2>
           </div>
 
@@ -76,7 +83,10 @@ export function OurCompanies() {
                       hoveredCompany === company.id
                         ? "1px solid rgba(220, 180, 133, 0.5)"
                         : "1px solid rgba(60, 50, 35, 0.4)",
-                    transform: hoveredCompany === company.id ? "scale(1.08)" : "scale(1)",
+                    transform:
+                      hoveredCompany === company.id
+                        ? "scale(1.08)"
+                        : "scale(1)",
                   }}
                 />
 
@@ -89,7 +99,10 @@ export function OurCompanies() {
                     height={150}
                     className="object-contain max-w-full max-h-full transition-all duration-300"
                     style={{
-                      filter: hoveredCompany === company.id ? "brightness(1.2)" : "brightness(1) opacity(0.9)",
+                      filter:
+                        hoveredCompany === company.id
+                          ? "brightness(1.2)"
+                          : "brightness(1) opacity(0.9)",
                     }}
                   />
                 </div>
@@ -99,5 +112,5 @@ export function OurCompanies() {
         </div>
       </div>
     </section>
-  )
+  );
 }

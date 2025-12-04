@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { CompanyHero } from "@/components/company-hero";
 import Image from "next/image";
 import { getCompanyById, companiesData } from "@/lib/companies-data";
 import Link from "next/link";
@@ -18,11 +19,13 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   const company = getCompanyById(id);
+
   if (!company) {
     return {
       title: "Company Not Found",
     };
   }
+
   return {
     title: `${company.name} | Value Acquisitions Holdings Inc.`,
     description: company.longDescription,
@@ -46,43 +49,19 @@ export default async function CompanyPage({
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#261c12" }}>
       <Navigation />
+
       <main className="pt-24">
-        {/* Hero Section */}
-        <div className="relative w-full h-96 md:h-[500px] lg:h-[600px] overflow-hidden">
-          <Image
-            src={company.heroImage || "/placeholder.svg"}
-            alt={company.name}
-            fill
-            className="object-cover"
-            quality={90}
-          />
-
-          {/* Dimming overlay */}
-          <div className="absolute inset-0 bg-black/70" />
-
-          {/* Content */}
-          <div className="absolute inset-0 flex items-center justify-start px-6 md:px-12 lg:px-16">
-            <div className="max-w-2xl">
-              <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-                style={{ color: "#DCB485" }}
-              >
-                {company.name}
-              </h1>
-              <p
-                className="text-base md:text-lg leading-relaxed"
-                style={{ color: "#FFFFFF" }}
-              >
-                {company.category}
-              </p>
-            </div>
-          </div>
-        </div>
+        {/* Hero Section with animation */}
+        <CompanyHero
+          name={company.name}
+          category={company.category}
+          heroImage={company.heroImage}
+        />
 
         {/* Content Section */}
         <section className="py-12 md:py-20 px-4 md:px-8">
           <div className="max-w-4xl mx-auto">
-            {/* Logo and Description */}
+            {/* Logo + Description */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
               <div className="md:col-span-1 flex items-center justify-center">
                 <Image
@@ -93,6 +72,7 @@ export default async function CompanyPage({
                   className="object-contain"
                 />
               </div>
+
               <div className="md:col-span-2">
                 <h2
                   className="text-3xl md:text-4xl font-bold mb-4"
@@ -117,6 +97,7 @@ export default async function CompanyPage({
               >
                 Key Highlights
               </h3>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {company.highlights.map((highlight, index) => (
                   <div
@@ -165,6 +146,7 @@ export default async function CompanyPage({
             >
               Other Companies
             </h2>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {otherCompanies.map((relatedCompany) => (
                 <Link
@@ -186,12 +168,14 @@ export default async function CompanyPage({
                       height={60}
                       className="object-contain mb-4"
                     />
+
                     <h3
                       className="text-lg font-bold mb-2"
                       style={{ color: "#DCB485" }}
                     >
                       {relatedCompany.name}
                     </h3>
+
                     <p className="text-sm" style={{ color: "#FFFFFF" }}>
                       {relatedCompany.category}
                     </p>
@@ -202,6 +186,7 @@ export default async function CompanyPage({
           </div>
         </section>
       </main>
+
       <Footer />
     </div>
   );

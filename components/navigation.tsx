@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -67,13 +68,15 @@ export function Navigation() {
       }}
     >
       <div className="flex items-center">
-        <Image
-          src="/images/logo-vah.png"
-          alt="VI Logo"
-          width={40}
-          height={40}
-          className="w-8 h-8 md:w-8 md:h-8 transition-transform duration-300 hover:scale-110 shrink-0"
-        />
+        <Link href="/home" className="flex items-center">
+  <Image
+    src="/images/logo-vah.png"
+    alt="VI Logo"
+    width={40}
+    height={40}
+    className="w-8 h-8 transition-transform duration-300 hover:scale-110"
+  />
+</Link>
       </div>
 
       {/* DESKTOP MENU */}

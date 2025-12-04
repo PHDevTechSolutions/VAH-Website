@@ -90,7 +90,7 @@ const SolutionsGrid = ({
                     border border-gray-300 
                     rounded-xl 
                     px-4 
-                    bg-blue-50/40
+                    bg-white
                     hover:bg-blue-50
                     transition-all duration-200
                   "

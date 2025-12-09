@@ -76,7 +76,7 @@ export function Navigation() {
 
   const textColor = isOnSolutions ? "#ffffff" : "#DCB485";
   const logoSrc = isOnSolutions
-    ? "/images/buildchem-white.png"
+    ? "/images/buildchem-small.png"
     : "/images/logo-vah.png";
 
   const handleSolutionClick = (index: number) => {

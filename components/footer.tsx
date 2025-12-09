@@ -12,7 +12,7 @@ export function Footer() {
     ? "linear-gradient(180deg, #5DE0E6 0%, #004AAD 100%)"
     : "linear-gradient(180deg, #261c12 0%, #000000 100%)"
 
-  const logoSrc = isOnSolutions ? "/images/vah-white.png" : "/images/logo-footer.png"
+  const logoSrc = isOnSolutions ? "/images/buildchem-white.png" : "/images/logo-footer.png"
   const textColor = isOnSolutions ? "#ffffff" : "#FFFFFF"
   const accentColor = isOnSolutions ? "rgba(255, 255, 255, 0.9)" : "#DCB485"
   const borderColor = isOnSolutions ? "rgba(255, 255, 255, 0.2)" : "rgba(220, 180, 133, 0.2)"

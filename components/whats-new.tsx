@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import Image from "next/image"
+import Image from "next/image";
 
 export function WhatsNew() {
   const blogPosts = [
@@ -18,26 +18,41 @@ export function WhatsNew() {
         "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
       image: "/images/blogs.jpg",
     },
-  ]
+  ];
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-12" style={{ backgroundColor: "#261c12" }}>
+    <section
+      className="py-16 md:py-24 px-4 md:px-12"
+      style={{ backgroundColor: "#261c12" }}
+    >
       <div className="max-w-7xl mx-auto">
+
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 md:mb-16 gap-4">
-          <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "#DCB485" }}>
+          <h2
+            className="text-4xl md:text-5xl font-bold"
+            style={{ color: "#DCB485" }}
+          >
             What's New
           </h2>
-          <a href="/blogs" className="transition-colors" style={{ color: "#DCB485" }}>
+          <a
+            href="/blogs"
+            className="transition-colors"
+            style={{ color: "#DCB485" }}
+          >
             Go to Blogs →
           </a>
         </div>
 
-        {/* Blog Cards Grid */}
+        {/* Blog Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           {blogPosts.map((post) => (
-            <article key={post.id} className="group cursor-pointer">
-              {/* Image - Updated background to darker and border color */}
+            <article
+              key={post.id}
+              className="group cursor-pointer rounded-xl overflow-hidden p-4 border bg-[#1e160f]/80 backdrop-blur-sm transition-all duration-300 hover:shadow-xl"
+              style={{ borderColor: "rgba(220, 180, 133, 0.3)" }}
+            >
+              {/* Image */}
               <div
                 className="relative h-64 md:h-72 rounded-lg overflow-hidden mb-6 border bg-black"
                 style={{ borderColor: "rgba(220, 180, 133, 0.4)" }}
@@ -62,7 +77,10 @@ export function WhatsNew() {
               >
                 Control the pace and perfect the process.
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "#FFFFFF" }}>
+              <p
+                className="text-sm leading-relaxed"
+                style={{ color: "#FFFFFF" }}
+              >
                 {post.description}
               </p>
             </article>
@@ -70,5 +88,5 @@ export function WhatsNew() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -48,7 +48,6 @@ export const SolutionsContent = () => {
         { category: "BUILDCHEM Retarders", items: ["BUILDCHEM RETARDER", "BUILDCHEM STABLE"] },
         { category: "BUILDCHEM SET Series", items: ["BUILDCHEM SET 100", "BUILDCHEM SET 500", "BUILDCHEM SET 500P"] },
       ],
-      reverse: true,
     },
     {
       index: 3,
@@ -67,7 +66,6 @@ export const SolutionsContent = () => {
       products: [
         { category: "BUILDCHEM WP Series", items: ["BUILDCHEM WP®10L", "BUILDCHEM WP®20", "BUILDCHEM SBX 100"] },
       ],
-      reverse: true,
     },
     {
       index: 5,
@@ -84,7 +82,6 @@ export const SolutionsContent = () => {
       products: [
         { category: "BUILDCHEM FORM Series", items: ["BUILDCHEM DE-BONDING AGENT", "BUILDCHEM FORM MRA", "BUILDCHEM FORM WB10", "BUILDCHEM FORM WB"] },
       ],
-      reverse: true,
     },
     {
       index: 7,
@@ -99,7 +96,6 @@ export const SolutionsContent = () => {
       description:
         "Moisture-retaining coatings designed to control water loss in fresh concrete, promoting proper hydration, reducing cracking, and improving long-term strength.",
       products: [{ category: "BUILDCHEM CURE Series", items: ["BUILDCHEM®CURE 100", "BUILDCHEM®CURE 150"] }],
-      reverse: true,
     },
     {
       index: 9,
@@ -114,7 +110,7 @@ export const SolutionsContent = () => {
       description:
         "Specialized cleaners engineered to remove cement residue, efflorescence, and contaminants, preparing surfaces for coatings, repairs, or finishing.",
       products: [{ category: "BUILDCHEM ECO Series", items: ["BUILDCHEM ECO CR"] }],
-      reverse: true,
+
     },
   ];
 
@@ -141,7 +137,6 @@ export const SolutionsContent = () => {
                 title={sol.title}
                 description={sol.description}
                 products={sol.products}
-                reverse={sol.reverse}
               />
             </div>
           ))}

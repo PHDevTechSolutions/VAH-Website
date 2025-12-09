@@ -52,12 +52,17 @@ export function Navigation() {
 
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [mobileExpandedDropdown, setMobileExpandedDropdown] = useState<string | null>(null);
+  const [mobileExpandedDropdown, setMobileExpandedDropdown] = useState<
+    string | null
+  >(null);
   const desktopMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (desktopMenuRef.current && !desktopMenuRef.current.contains(event.target as Node)) {
+      if (
+        desktopMenuRef.current &&
+        !desktopMenuRef.current.contains(event.target as Node)
+      ) {
         setOpenDropdown(null);
       }
     }
@@ -70,7 +75,9 @@ export function Navigation() {
     : "linear-gradient(180deg, #000000 0%, #261c12 100%)";
 
   const textColor = isOnSolutions ? "#ffffff" : "#DCB485";
-  const logoSrc = isOnSolutions ? "/images/vah-white-small.png" : "/images/logo-vah.png";
+  const logoSrc = isOnSolutions
+    ? "/images/buildchem-white.png"
+    : "/images/logo-vah.png";
 
   const handleSolutionClick = (index: number) => {
     if (pathname === "/solutions") {
@@ -95,27 +102,32 @@ export function Navigation() {
           <Image
             src={logoSrc || "/placeholder.svg"}
             alt="VI Logo"
-            width={40}
-            height={40}
-            className="w-8 h-8 md:w-8 md:h-8 transition-all duration-300 hover:scale-110 shrink-0"
+            width={520}
+            height={124}
+            className="h-10 w-auto md:h-12 transition-all duration-300 hover:scale-105 shrink-0"
+            priority
           />
         </Link>
       </div>
 
       {/* DESKTOP MENU */}
-      <div className="hidden md:flex items-center justify-center flex-1" ref={desktopMenuRef}>
+      <div
+        className="hidden md:flex items-center justify-center flex-1"
+        ref={desktopMenuRef}
+      >
         <div
           className="flex items-center justify-center gap-6 px-8 py-3 rounded-full backdrop-blur-xl border shadow-lg relative transition-all duration-300"
           style={{
             background: isOnSolutions
               ? "rgba(255, 255, 255, 0.15)"
               : "linear-gradient(135deg, rgba(26, 20, 16, 0.9) 0%, rgba(18, 14, 10, 0.85) 100%)",
-            borderColor: isOnSolutions ? "rgba(255, 255, 255, 0.3)" : "rgba(220, 180, 133, 0.3)",
+            borderColor: isOnSolutions
+              ? "rgba(255, 255, 255, 0.3)"
+              : "rgba(220, 180, 133, 0.3)",
           }}
         >
           {navItems.map((item) => (
             <div key={item.label} className="relative flex items-center gap-1">
-
               {/* TEXT LINK */}
               <Link
                 href={item.href}
@@ -129,7 +141,9 @@ export function Navigation() {
               {item.dropdown && (
                 <button
                   onClick={() =>
-                    setOpenDropdown(openDropdown === item.label ? null : item.label)
+                    setOpenDropdown(
+                      openDropdown === item.label ? null : item.label
+                    )
                   }
                   className="flex items-center"
                   style={{ color: textColor }}
@@ -191,8 +205,18 @@ export function Navigation() {
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         style={{ color: textColor }}
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
       </button>
 
@@ -201,13 +225,16 @@ export function Navigation() {
         <div
           className="md:hidden absolute top-full left-0 right-0 mt-2 mx-2 flex flex-col gap-2 pb-4 rounded-lg border p-4 max-h-96 overflow-y-auto mobile-scroll-hide transition-all duration-300"
           style={{
-            backgroundColor: isOnSolutions ? "rgba(5, 74, 173, 0.95)" : "#1a1410",
-            borderColor: isOnSolutions ? "rgba(255, 255, 255, 0.3)" : "rgba(220, 180, 133, 0.3)",
+            backgroundColor: isOnSolutions
+              ? "rgba(5, 74, 173, 0.95)"
+              : "#1a1410",
+            borderColor: isOnSolutions
+              ? "rgba(255, 255, 255, 0.3)"
+              : "rgba(220, 180, 133, 0.3)",
           }}
         >
           {navItems.map((item) => (
             <div key={item.label} className="relative">
-
               {/* TEXT ALWAYS A LINK */}
               <Link
                 href={item.href}

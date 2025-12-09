@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { useState, useEffect } from "react"
 
 export function Solutions() {
@@ -9,17 +10,17 @@ export function Solutions() {
   const slides = [
     {
       image: "/images/solutions.png",
-      title: "BUILDCHEM HP Series",
+      title: "Superplasticizers & High-Range Water Reducers",
       description: "EXTENDED WORKABILITY RETENTION. COHESIVE CONCRETE. OPTIMIZED PLACEMENT.",
     },
     {
       image: "/images/solutions.png",
-      title: "BUILDCHEM HP Series",
+      title: "Set Retarders & Accelerators",
       description: "EXTENDED WORKABILITY RETENTION. COHESIVE CONCRETE. OPTIMIZED PLACEMENT.",
     },
     {
       image: "/images/solutions.png",
-      title: "BUILDCHEM HP Series",
+      title: "Underwater Concrete Solutions",
       description: "EXTENDED WORKABILITY RETENTION. COHESIVE CONCRETE. OPTIMIZED PLACEMENT.",
     },
   ]
@@ -76,12 +77,15 @@ export function Solutions() {
               {slides[currentSlide].description}
             </p>
 
+
+            <Link href="/solutions">
             <button
               className="px-6 py-3 rounded-lg font-semibold transition-all duration-300"
               style={{ backgroundColor: "#DCB485", color: "#261c12" }}
             >
               Find Out More
             </button>
+            </Link>
           </div>
 
           {/* Navigation arrows */}

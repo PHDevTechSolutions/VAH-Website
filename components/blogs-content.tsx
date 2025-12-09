@@ -24,24 +24,150 @@ export function BlogsContent() {
   }, []);
 
   const blogPosts = [
-    { id: 1, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 2, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 3, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 4, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 5, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 6, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 7, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 8, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 9, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 10, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 11, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 12, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 13, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 14, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 15, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 16, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 17, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
-    { id: 18, title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE", description: "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem", category: "BUILDCHEM", image: "/images/blogs.jpg" },
+    {
+      id: 1,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 2,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 3,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 4,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 5,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 6,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 7,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 8,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 9,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 10,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 11,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 12,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 13,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 14,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 15,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 16,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 17,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
+    {
+      id: 18,
+      title: "PRECISION TIMING FOR SUPERIOR CONCRETE PERFORMANCE",
+      description:
+        "BuildChem's Retarding Admixture gives you precision timing for superior concrete performance. Build with precision. Build with BuildChem",
+      category: "BUILDCHEM",
+      image: "/images/blogs.jpg",
+    },
   ];
 
   const totalPages = Math.ceil(blogPosts.length / postsPerPage);
@@ -63,7 +189,6 @@ export function BlogsContent() {
       style={{ backgroundColor: "#261c12" }}
     >
       <div className="max-w-7xl mx-auto">
-
         {/* Blog Grid */}
         <div
           className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 transition-opacity duration-700 ${
@@ -100,7 +225,10 @@ export function BlogsContent() {
                 Control the pace and perfect the process.
               </h3>
 
-              <p className="text-sm leading-relaxed" style={{ color: "#ffffff" }}>
+              <p
+                className="text-sm leading-relaxed"
+                style={{ color: "#ffffff" }}
+              >
                 {post.description}
               </p>
             </article>
@@ -125,9 +253,7 @@ export function BlogsContent() {
                 key={i}
                 onClick={() => goToPage(i + 1)}
                 className={`w-8 h-8 rounded-full text-sm transition ${
-                  currentPage === i + 1
-                    ? "bg-[#DCB485] text-black"
-                    : "border"
+                  currentPage === i + 1 ? "bg-[#DCB485] text-black" : "border"
                 }`}
                 style={{
                   borderColor: currentPage === i + 1 ? "#DCB485" : "#DCB485",

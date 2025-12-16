@@ -1,69 +1,126 @@
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
-import { CompanyHero } from "@/components/company-hero";
-import Image from "next/image";
-import { getCompanyById, companiesData } from "@/lib/companies-data";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
+import { ScrollToTop } from "@/components/scroll-to-top"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
+import { notFound } from "next/navigation"
 
-export async function generateStaticParams() {
-  return companiesData.map((company) => ({
-    id: company.id,
-  }));
+const companiesData = {
+  buildchem: {
+    name: "Buildchem",
+    logo: "/buildchem-logo.jpg",
+    description:
+      "Buildchem Solutions Inc. is a leading provider of construction chemicals and building materials solutions, delivering innovative products for modern construction needs.",
+    overview: `Buildchem has established itself as a trusted partner in the construction industry, offering a comprehensive range of products that enhance building performance, durability, and sustainability. Our commitment to innovation and quality has made us a preferred supplier for contractors and developers across the region.`,
+    services: [
+      "Construction Chemicals",
+      "Waterproofing Solutions",
+      "Concrete Admixtures",
+      "Tile Adhesives & Grouts",
+      "Protective Coatings",
+      "Repair & Rehabilitation Products",
+    ],
+    keyFeatures: [
+      "Over 20 years of industry experience",
+      "ISO 9001 certified quality management",
+      "Extensive product portfolio",
+      "Technical support and training",
+      "Sustainable and eco-friendly solutions",
+    ],
+  },
+  oko: {
+    name: "OKO",
+    logo: "/oko-logo.jpg",
+    description:
+      "OKO is an innovative construction and infrastructure development company delivering excellence in large-scale projects across multiple sectors.",
+    overview: `OKO combines cutting-edge construction methodologies with traditional craftsmanship to deliver projects that exceed client expectations. Our integrated approach ensures seamless project execution from planning through completion.`,
+    services: [
+      "Commercial Construction",
+      "Infrastructure Development",
+      "Residential Projects",
+      "Industrial Facilities",
+      "Project Management",
+      "Design-Build Services",
+    ],
+    keyFeatures: [
+      "Proven track record in complex projects",
+      "Advanced project management systems",
+      "Safety-first culture",
+      "On-time, on-budget delivery",
+      "Experienced engineering teams",
+    ],
+  },
+  "progressive-dynamics": {
+    name: "Progressive Dynamics",
+    logo: "/progressive-dynamics-logo.jpg",
+    description:
+      "Progressive Dynamics is an advanced engineering and industrial manufacturing solutions provider with cutting-edge technology and expertise.",
+    overview: `Progressive Dynamics leverages advanced engineering principles and modern manufacturing capabilities to deliver innovative solutions for complex industrial challenges. Our multidisciplinary approach ensures optimal outcomes for every project.`,
+    services: [
+      "Industrial Engineering",
+      "Manufacturing Solutions",
+      "Structural Engineering",
+      "Equipment Design & Fabrication",
+      "Process Optimization",
+      "Technical Consulting",
+    ],
+    keyFeatures: [
+      "State-of-the-art manufacturing facilities",
+      "Expert engineering team",
+      "Custom solution development",
+      "Quality assurance protocols",
+      "Continuous innovation focus",
+    ],
+  },
+  "progressive-materials": {
+    name: "Progressive Materials",
+    logo: "/progressive-materials-logo.jpg",
+    description:
+      "Progressive Materials is a premium industrial materials and specialty construction products supplier for diverse applications.",
+    overview: `Progressive Materials provides a comprehensive range of high-quality industrial materials that meet the demanding requirements of modern construction and manufacturing. Our commitment to quality and reliability has made us a trusted supplier across multiple industries.`,
+    services: [
+      "Industrial Raw Materials",
+      "Specialty Construction Products",
+      "Material Supply & Logistics",
+      "Quality Testing Services",
+      "Technical Consultation",
+      "Custom Material Solutions",
+    ],
+    keyFeatures: [
+      "ISO certified quality standards",
+      "Extensive material inventory",
+      "Reliable supply chain",
+      "Competitive pricing",
+      "Expert technical support",
+    ],
+  },
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const company = getCompanyById(id);
+export default function CompanyDetailPage({ params }: { params: { id: string } }) {
+  const company = companiesData[params.id as keyof typeof companiesData]
 
   if (!company) {
-    return {
-      title: "Company Not Found",
-    };
+    notFound()
   }
-
-  return {
-    title: `${company.name} | Value Acquisitions Holdings Inc.`,
-    description: company.longDescription,
-  };
-}
-
-export default async function CompanyPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const company = getCompanyById(id);
-
-  if (!company) {
-    notFound();
-  }
-
-  const otherCompanies = companiesData.filter((c) => c.id !== company.id);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#261c12" }}>
-      <Navigation />
+    <main className="min-h-screen bg-white">
+      <Navbar />
 
-      <main className="pt-24">
-        {/* Hero Section with animation */}
-        <CompanyHero
-          name={company.name}
-          category={company.category}
-          heroImage={company.heroImage}
-        />
+      <div className="py-16 bg-background">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <Link
+            href="/companies"
+            className="inline-flex items-center gap-2 text-accent hover:text-accent/80 transition-colors mb-8 font-semibold"
+          >
+            <ArrowLeft size={20} />
+            Back to Companies
+          </Link>
 
-        {/* Content Section */}
-        <section className="py-12 md:py-20 px-4 md:px-8">
-          <div className="max-w-4xl mx-auto">
-            {/* Logo + Description */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
-              <div className="md:col-span-1 flex items-center justify-center">
+          <div className="bg-white border-2 border-border rounded-lg overflow-hidden">
+            <div className="p-8 md:p-12 space-y-12">
+              <div className="flex items-center gap-6">
                 <Image
                   src={company.logo || "/placeholder.svg"}
                   alt={company.name}
@@ -73,121 +130,56 @@ export default async function CompanyPage({
                 />
               </div>
 
-              <div className="md:col-span-2">
-                <h2
-                  className="text-3xl md:text-4xl font-bold mb-4"
-                  style={{ color: "#DCB485" }}
-                >
-                  About {company.shortName}
-                </h2>
-                <p
-                  className="text-base md:text-lg leading-relaxed"
-                  style={{ color: "#FFFFFF" }}
-                >
-                  {company.longDescription}
-                </p>
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-5xl font-bold text-black">{company.name}</h1>
+                <p className="text-xl text-muted-foreground leading-relaxed">{company.description}</p>
               </div>
-            </div>
 
-            {/* Highlights */}
-            <div className="mb-12">
-              <h3
-                className="text-2xl md:text-3xl font-bold mb-8"
-                style={{ color: "#DCB485" }}
-              >
-                Key Highlights
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {company.highlights.map((highlight, index) => (
-                  <div
-                    key={index}
-                    className="p-6 rounded-lg"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(220, 180, 133, 0.15) 0%, rgba(220, 180, 133, 0.05) 100%)",
-                      border: "1px solid rgba(220, 180, 133, 0.2)",
-                    }}
-                  >
-                    <p
-                      className="text-base md:text-lg"
-                      style={{ color: "#DCB485" }}
-                    >
-                      {highlight}
-                    </p>
-                  </div>
-                ))}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-black">Overview</h2>
+                <p className="text-muted-foreground leading-relaxed text-lg">{company.overview}</p>
               </div>
-            </div>
 
-            {/* Back Link */}
-            <div className="pt-8 border-t border-gray-700">
-              <Link
-                href="/companies"
-                className="inline-flex items-center gap-2 text-lg hover:opacity-80 transition-opacity"
-              >
-                <span style={{ color: "#DCB485" }}>
-                  ← Back to All Companies
-                </span>
-              </Link>
-            </div>
-          </div>
-        </section>
+              <div className="grid md:grid-cols-2 gap-12">
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold text-black">Services</h2>
+                  <ul className="space-y-3">
+                    {company.services.map((service) => (
+                      <li key={service} className="flex items-start gap-3">
+                        <span className="text-accent mt-1">•</span>
+                        <span className="text-muted-foreground">{service}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-        {/* Related Companies */}
-        <section
-          className="py-12 md:py-20 px-4 md:px-8"
-          style={{ backgroundColor: "#1a1410" }}
-        >
-          <div className="max-w-6xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl font-bold mb-12 text-center"
-              style={{ color: "#DCB485" }}
-            >
-              Other Companies
-            </h2>
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold text-black">Key Features</h2>
+                  <ul className="space-y-3">
+                    {company.keyFeatures.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <span className="text-accent mt-1">•</span>
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {otherCompanies.map((relatedCompany) => (
-                <Link
-                  key={relatedCompany.id}
-                  href={`/companies/${relatedCompany.id}`}
-                >
-                  <div
-                    className="p-8 rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300 h-full flex flex-col items-center text-center"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(60, 50, 35, 0.5) 0%, rgba(38, 28, 18, 0.4) 100%)",
-                      border: "1px solid rgba(220, 180, 133, 0.2)",
-                    }}
-                  >
-                    <Image
-                      src={relatedCompany.logo || "/placeholder.svg"}
-                      alt={relatedCompany.name}
-                      width={100}
-                      height={60}
-                      className="object-contain mb-4"
-                    />
-
-                    <h3
-                      className="text-lg font-bold mb-2"
-                      style={{ color: "#DCB485" }}
-                    >
-                      {relatedCompany.name}
-                    </h3>
-
-                    <p className="text-sm" style={{ color: "#FFFFFF" }}>
-                      {relatedCompany.category}
-                    </p>
-                  </div>
+              <div className="pt-8 border-t border-border">
+                <Link href="/contact">
+                  <button className="bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    Contact Us
+                  </button>
                 </Link>
-              ))}
+              </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </div>
 
       <Footer />
-    </div>
-  );
+      <ScrollToTop />
+    </main>
+  )
 }

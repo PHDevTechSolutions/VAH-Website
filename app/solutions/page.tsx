@@ -1,26 +1,37 @@
-import { Suspense } from "react";
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
-import { SolutionsHero } from "@/components/solutions-hero";
-import { SolutionsContent } from "@/components/solutions-content";
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
+import type { Metadata } from "next"
+import Image from "next/image"
+import { SolutionsContent } from "@/components/solutions-content"
+import { ScrollToTop } from "@/components/scroll-to-top"
 
-export const metadata = {
-  title: "Solutions | Value Acquisitions Holdings Inc.",
-  description:
-    "Explore our portfolio of companies leading in construction, distribution, and industrial solutions.",
-};
+export const metadata: Metadata = {
+  title: "Solutions | Buildchem",
+  description: "Complete catalog of concrete admixtures and construction chemicals.",
+}
 
 export default function SolutionsPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#FFFFFF" }}>
-      <Navigation />
-      <main className="pt-24" style={{ backgroundColor: "#FFFFFF" }}>
-        <SolutionsHero />
-        <Suspense fallback={<div>Loading solutions...</div>}>
+    <div className="min-h-screen bg-white">
+      <Navbar />
+
+      <section className="relative h-[60vh] flex items-center justify-center pt-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="/images/HERO.png" alt="Modern corporate buildings" fill className="object-cover" priority />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 text-balance">BuildChem Solutions</h1>
+          <p className="text-xl text-white/90 max-w-3xl mx-auto text-pretty">
+            Advanced concrete admixtures and construction chemicals for superior performance and durability.
+          </p>
+        </div>
+      </section>
+
       <SolutionsContent />
-    </Suspense>
-      </main>
+
       <Footer />
+      <ScrollToTop />
     </div>
-  );
+  )
 }

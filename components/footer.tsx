@@ -1,21 +1,20 @@
 "use client"
 
 import Image from "next/image"
-import { usePathname } from "next/navigation"
 import { Mail, Facebook, Instagram } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 export function Footer() {
   const pathname = usePathname()
-  const isOnSolutions = pathname === "/solutions"
+  const isSolutionsPage = pathname === "/solutions"
 
-  const footerBg = isOnSolutions
-    ? "linear-gradient(180deg, #5DE0E6 0%, #004AAD 100%)"
-    : "linear-gradient(180deg, #261c12 0%, #000000 100%)"
-
-  const logoSrc = isOnSolutions ? "/images/buildchem-white.png" : "/images/logo-footer.png"
-  const textColor = isOnSolutions ? "#ffffff" : "#FFFFFF"
-  const accentColor = isOnSolutions ? "rgba(255, 255, 255, 0.9)" : "#DCB485"
-  const borderColor = isOnSolutions ? "rgba(255, 255, 255, 0.2)" : "rgba(220, 180, 133, 0.2)"
+  const footerBg = isSolutionsPage
+    ? "linear-gradient(180deg, #FFFFFF 0%, #E6F0FF 50%, #4A90E2 100%)"
+    : "linear-gradient(180deg, #FFFFFF 0%, #F5F5DC 50%, #DCB485 100%)"
+  const logoSrc = "/images/vah-dark.png"
+  const textColor = "#1a1a1a"
+  const accentColor = isSolutionsPage ? "#4A90E2" : "#DCB485"
+  const borderColor = isSolutionsPage ? "rgba(74, 144, 226, 0.3)" : "rgba(220, 180, 133, 0.3)"
 
   return (
     <footer
@@ -50,7 +49,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:opacity-80 transition-opacity" style={{ color: textColor }}>
+                <a href="/privacy-policy" className="hover:opacity-80 transition-opacity" style={{ color: textColor }}>
                   Privacy Policy
                 </a>
               </li>
@@ -72,55 +71,55 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Empty Column */}
+          {/* Companies Column */}
           <div className="flex flex-col items-center lg:items-start">
-             <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: accentColor }}>
+            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: accentColor }}>
               OUR COMPANIES
             </h4>
             <div className="grid grid-cols-2 gap-4 w-full max-w-[280px]">
-              <a 
-                href="/companies/buildchem" 
+              <a
+                href="/companies#buildchem"
                 className="p-3 rounded-md hover:opacity-80 transition-opacity duration-300 flex items-center justify-center min-h-[70px]"
               >
                 <Image
                   src="/images/buildchem.png"
-                  alt="Buildschem Solutions Inc."
+                  alt="Buildchem Solutions Inc."
                   width={100}
                   height={40}
                   className="w-full h-auto object-contain max-h-[45px]"
                 />
               </a>
-              <a 
-                href="/companies/oko" 
+              <a
+                href="/companies#oko"
                 className="p-3 rounded-md hover:opacity-80 transition-opacity duration-300 flex items-center justify-center min-h-[70px]"
               >
                 <Image
                   src="/images/oko.png"
-                  alt="Öko"
+                  alt="OKO"
                   width={100}
                   height={40}
                   className="w-full h-auto object-contain max-h-[45px]"
                 />
               </a>
-              <a 
-                href="/companies/progdy" 
+              <a
+                href="/companies#progressive-dynamics"
                 className="p-3 rounded-md hover:opacity-80 transition-opacity duration-300 flex items-center justify-center min-h-[70px]"
               >
                 <Image
                   src="/images/progdy.png"
-                  alt="Progressive Dynamics Inc."
+                  alt="Progressive Dynamics"
                   width={100}
                   height={40}
                   className="w-full h-auto object-contain max-h-[45px]"
                 />
               </a>
-              <a 
-                href="#/companies/progma" 
+              <a
+                href="/companies#progressive-materials"
                 className="p-3 rounded-md hover:opacity-80 transition-opacity duration-300 flex items-center justify-center min-h-[70px]"
               >
                 <Image
                   src="/images/progma.png"
-                  alt="Progressive Materials Solutions Inc."
+                  alt="Progressive Materials"
                   width={100}
                   height={40}
                   className="w-full h-auto object-contain max-h-[45px]"
@@ -135,21 +134,21 @@ export function Footer() {
               Connect With Us
             </h4>
             <p className="text-xs md:text-sm mb-4 leading-relaxed" style={{ color: textColor }}>
-              Block 14, Brgy. Golden Mile Business Park, Lot 110TH Street, Maduya, Carmona, 4116 Cavite
+              35B Primex Tower, EDSA, corner Connecticut, San Juan City, 1554 Metro Manila
             </p>
             <p className="font-semibold mb-6 text-sm md:text-base" style={{ color: accentColor }}>
-              09175142168
+              +63 (2) 8123-4567
             </p>
 
             {/* Social Icons */}
             <div className="flex gap-4">
-              <a href="#" className="transition-colors" style={{ color: textColor }}>
+              <a href="#" className="transition-colors hover:opacity-70" style={{ color: accentColor }}>
                 <Facebook size={18} />
               </a>
-              <a href="#" className="transition-colors" style={{ color: textColor }}>
+              <a href="#" className="transition-colors hover:opacity-70" style={{ color: accentColor }}>
                 <Instagram size={18} />
               </a>
-              <a href="#" className="transition-colors" style={{ color: textColor }}>
+              <a href="#" className="transition-colors hover:opacity-70" style={{ color: accentColor }}>
                 <Mail size={18} />
               </a>
             </div>

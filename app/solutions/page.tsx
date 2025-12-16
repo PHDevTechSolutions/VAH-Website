@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import type { Metadata } from "next"
 import Image from "next/image"
+import { Suspense } from 'react';
 import { SolutionsContent } from "@/components/solutions-content"
 import { ScrollToTop } from "@/components/scroll-to-top"
 
@@ -27,9 +28,9 @@ export default function SolutionsPage() {
           </p>
         </div>
       </section>
-
+      <Suspense fallback={<div>Loading solutions...</div>}>
       <SolutionsContent />
-
+      </Suspense>
       <Footer />
       <ScrollToTop />
     </div>

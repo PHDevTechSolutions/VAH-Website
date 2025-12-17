@@ -164,65 +164,67 @@ export default function HomePage() {
       </section>
 
       <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <SectionHeader
-            title="What's New"
-            subtitle="Latest updates and insights from our companies"
-          />
-          <div className="grid md:grid-cols-2 gap-8 mt-16">
-            {[
-              {
-                title: "Buildchem Launches New Eco-Friendly Product Line",
-                date: "December 15, 2024",
-                excerpt:
-                  "Introducing sustainable construction chemicals that reduce environmental impact without compromising performance.",
-                image: "/images/blogs.jpg",
-              },
-              {
-                title:
-                  "Progressive Dynamics Completes Major Infrastructure Project",
-                date: "December 10, 2024",
-                excerpt:
-                  "Successfully delivered a landmark bridge construction project ahead of schedule, showcasing engineering excellence.",
-                image: "/images/blogs.jpg",
-              },
-            ].map((post, index) => (
-              <div
-                key={post.title}
-                className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={post.image || "/placeholder.svg"}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-8 space-y-4 relative z-10">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar size={16} />
-                    <span>{post.date}</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
-                    {post.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  <button className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
-                    <span>Read More</span>
-                    <span className="transform group-hover:translate-x-2 transition-transform duration-500">
-                      →
-                    </span>
-                  </button>
-                </div>
-              </div>
-            ))}
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <SectionHeader
+      title="What's New"
+      subtitle="Latest updates and insights from our companies"
+    />
+    <div className="grid md:grid-cols-2 gap-8 mt-16">
+      {[
+        {
+          id: "1",
+          title: "Buildchem Launches New Eco-Friendly Product Line",
+          date: "December 15, 2024",
+          excerpt:
+            "Introducing sustainable construction chemicals that reduce environmental impact without compromising performance.",
+          image: "/images/blogs.jpg",
+        },
+        {
+          id: "2",
+          title: "Progressive Dynamics Completes Major Infrastructure Project",
+          date: "December 10, 2024",
+          excerpt:
+            "Successfully delivered a landmark bridge construction project ahead of schedule, showcasing engineering excellence.",
+          image: "/images/blogs.jpg",
+        },
+      ].map((post, index) => (
+        <Link
+          key={post.id}
+          href={`/blogs/${post.id}`}
+          className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg"
+          style={{ animationDelay: `${index * 0.1}s` }}
+        >
+          <div className="relative h-64 overflow-hidden">
+            <Image
+              src={post.image || "/placeholder.svg"}
+              alt={post.title}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
           </div>
-        </div>
-      </section>
+          <div className="p-8 space-y-4 relative z-10">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Calendar size={16} />
+              <span>{post.date}</span>
+            </div>
+            <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
+              {post.title}
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              {post.excerpt}
+            </p>
+            <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
+              <span>Read More</span>
+              <span className="transform group-hover:translate-x-2 transition-transform duration-500">
+                →
+              </span>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </div>
+</section>
 
       <section className="py-24 bg-black text-white relative overflow-hidden">
         <div className="absolute inset-0 gradient-gold-to-transparent opacity-10" />

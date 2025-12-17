@@ -120,4 +120,216 @@ export const blogPosts: Record<string, BlogPost> = {
         "Progressive Materials achieves ISO certification, reinforcing commitment to quality and excellence in industrial materials production.",
     },
   },
+
+    "5": {
+    id: "5",
+    title: "Buildchem Introduces Advanced Waterproofing Solutions",
+    date: "November 20, 2024",
+    excerpt:
+      "New waterproofing systems from Buildchem ensure durability and protection for residential and commercial projects.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>Buildchem has launched a range of advanced waterproofing solutions designed to protect structures from water damage and extend lifespan.</p>
+      
+      <h2>Innovative Products</h2>
+      <p>These solutions include liquid-applied membranes, cementitious coatings, and sheet membranes, all engineered for maximum performance.</p>
+      
+      <h2>Benefits</h2>
+      <ul>
+        <li>Long-lasting protection</li>
+        <li>Easy application</li>
+        <li>Eco-friendly formulations</li>
+      </ul>
+    `,
+    seo: {
+      title: "Buildchem Waterproofing Solutions | Blog",
+      description:
+        "Buildchem launches new waterproofing solutions designed to provide durable protection for residential and commercial construction projects.",
+    },
+  },
+
+  "6": {
+    id: "6",
+    title: "OKO Secures Mega Commercial Project in Metro Manila",
+    date: "November 15, 2024",
+    excerpt:
+      "OKO wins a large-scale commercial construction project, showcasing expertise in high-rise building development.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>OKO has been awarded a major commercial project in Metro Manila, reflecting its strong reputation in high-rise construction and project management.</p>
+      
+      <h2>Project Details</h2>
+      <p>The project involves a state-of-the-art office complex with sustainable design features and innovative construction techniques.</p>
+      
+      <h2>Impact</h2>
+      <p>This project strengthens OKO’s presence in the urban construction market and creates opportunities for local employment.</p>
+    `,
+    seo: {
+      title: "OKO Mega Commercial Project | Blog",
+      description:
+        "OKO secures a landmark commercial construction project in Metro Manila, demonstrating expertise in high-rise development and sustainable design.",
+    },
+  },
+
+  "7": {
+    id: "7",
+    title: "Progressive Dynamics Implements Smart Manufacturing Systems",
+    date: "November 10, 2024",
+    excerpt:
+      "Introducing Industry 4.0 technologies to streamline production and improve efficiency in industrial manufacturing.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>Progressive Dynamics is integrating smart manufacturing systems to optimize production, reduce waste, and enhance product quality.</p>
+      
+      <h2>Technology Integration</h2>
+      <p>Advanced IoT sensors, automation, and real-time monitoring improve operational efficiency across all facilities.</p>
+      
+      <h2>Benefits</h2>
+      <ul>
+        <li>Reduced downtime</li>
+        <li>Higher production quality</li>
+        <li>Real-time analytics</li>
+      </ul>
+    `,
+    seo: {
+      title: "Progressive Dynamics Smart Manufacturing | Blog",
+      description:
+        "Progressive Dynamics adopts smart manufacturing systems to enhance operational efficiency and product quality in industrial production.",
+    },
+  },
+
+  "8": {
+    id: "8",
+    title: "Progressive Materials Launches Eco-Friendly Cement Solutions",
+    date: "November 5, 2024",
+    excerpt:
+      "New sustainable cement products reduce carbon footprint while maintaining high-quality performance for construction projects.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>Progressive Materials introduces a line of eco-friendly cement products that align with global sustainability goals without compromising strength or durability.</p>
+      
+      <h2>Environmental Benefits</h2>
+      <ul>
+        <li>Lower CO2 emissions</li>
+        <li>Renewable raw materials</li>
+        <li>Energy-efficient production</li>
+      </ul>
+      
+      <h2>Application</h2>
+      <p>Ideal for commercial and residential projects requiring sustainable building solutions.</p>
+    `,
+    seo: {
+      title: "Progressive Materials Eco-Friendly Cement | Blog",
+      description:
+        "Progressive Materials launches eco-friendly cement solutions that reduce environmental impact while delivering high-quality construction performance.",
+    },
+  },
+
+  "9": {
+    id: "9",
+    title: "Buildchem Hosts Industry Training Workshop",
+    date: "October 30, 2024",
+    excerpt:
+      "Hands-on training workshop for engineers and contractors on advanced construction chemical applications.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>Buildchem conducted a comprehensive training workshop for industry professionals, covering the latest applications of construction chemicals and materials.</p>
+      
+      <h2>Topics Covered</h2>
+      <ul>
+        <li>Concrete admixture optimization</li>
+        <li>Waterproofing techniques</li>
+        <li>Protective coating applications</li>
+      </ul>
+      
+      <h2>Outcome</h2>
+      <p>Participants gained practical knowledge and skills to implement advanced construction solutions in real-world projects.</p>
+    `,
+    seo: {
+      title: "Buildchem Industry Training Workshop | Blog",
+      description:
+        "Buildchem hosts a professional training workshop for engineers and contractors, providing hands-on learning in advanced construction chemical applications.",
+    },
+  },
+
+  "10": {
+    id: "10",
+    title: "OKO Implements Sustainable Urban Development Practices",
+    date: "October 25, 2024",
+    excerpt:
+      "OKO adopts green construction practices to enhance urban development sustainability and reduce environmental impact.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>OKO is incorporating sustainable construction practices in all urban development projects, focusing on energy efficiency and eco-friendly materials.</p>
+      
+      <h2>Green Initiatives</h2>
+      <ul>
+        <li>Solar-powered project sites</li>
+        <li>Waste reduction programs</li>
+        <li>Environmentally responsible materials</li>
+      </ul>
+      
+      <h2>Impact</h2>
+      <p>These practices improve community wellbeing while supporting regulatory compliance and environmental stewardship.</p>
+    `,
+    seo: {
+      title: "OKO Sustainable Urban Development | Blog",
+      description:
+        "OKO implements sustainable construction practices for urban development projects, promoting eco-friendly materials and energy efficiency.",
+    },
+  },
+
+  "11": {
+    id: "11",
+    title: "Progressive Dynamics Receives Safety Excellence Award",
+    date: "October 20, 2024",
+    excerpt:
+      "Recognition for maintaining the highest standards of safety and compliance across all industrial projects.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>Progressive Dynamics is honored with a Safety Excellence Award for outstanding performance in workplace safety, risk management, and compliance.</p>
+      
+      <h2>Award Criteria</h2>
+      <ul>
+        <li>Zero accident record</li>
+        <li>Proactive safety protocols</li>
+        <li>Employee training and awareness</li>
+      </ul>
+      
+      <h2>Commitment</h2>
+      <p>This recognition reinforces the company's ongoing commitment to safe operations across all projects.</p>
+    `,
+    seo: {
+      title: "Progressive Dynamics Safety Excellence | Blog",
+      description:
+        "Progressive Dynamics receives a Safety Excellence Award for maintaining high standards of workplace safety and compliance across industrial projects.",
+    },
+  },
+
+  "12": {
+    id: "12",
+    title: "Progressive Materials Partners with Local Suppliers for Sustainable Growth",
+    date: "October 15, 2024",
+    excerpt:
+      "Collaboration with regional suppliers strengthens supply chain sustainability and supports community development.",
+    image: "/images/blogs.jpg",
+    content: `
+      <p>Progressive Materials has partnered with local suppliers to enhance supply chain sustainability and foster regional economic growth.</p>
+      
+      <h2>Partnership Benefits</h2>
+      <ul>
+        <li>Reduced transportation emissions</li>
+        <li>Support for local businesses</li>
+        <li>Improved supply chain reliability</li>
+      </ul>
+      
+      <h2>Community Impact</h2>
+      <p>These partnerships promote local development while aligning with corporate sustainability goals.</p>
+    `,
+    seo: {
+      title: "Progressive Materials Local Supplier Partnership | Blog",
+      description:
+        "Progressive Materials collaborates with local suppliers to enhance sustainable growth, support communities, and strengthen supply chains.",
+    },
+  },
 }

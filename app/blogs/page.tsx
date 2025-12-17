@@ -8,48 +8,18 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { blogPosts } from "@/lib/blogs"
 
-const blogPosts = [
-  {
-    id: "1",
-    title: "Buildchem Launches New Eco-Friendly Product Line",
-    date: "December 15, 2024",
-    excerpt:
-      "Introducing sustainable construction chemicals that reduce environmental impact without compromising performance.",
-    image: "/modern-industrial-facility.jpg",
-  },
-  {
-    id: "2",
-    title: "Progressive Dynamics Completes Major Infrastructure Project",
-    date: "December 10, 2024",
-    excerpt:
-      "Successfully delivered a landmark bridge construction project ahead of schedule, showcasing engineering excellence.",
-    image: "/industrial-construction-site-with-cranes-and-build.jpg",
-  },
-  {
-    id: "3",
-    title: "OKO Expands Operations to New Markets",
-    date: "December 5, 2024",
-    excerpt: "Strategic expansion brings our innovative solutions to emerging markets across Southeast Asia.",
-    image: "/modern-corporate-hq.png",
-  },
-  {
-    id: "4",
-    title: "Progressive Materials Achieves ISO Certification",
-    date: "November 28, 2024",
-    excerpt: "New quality standards certification reinforces our commitment to excellence in industrial materials.",
-    image: "/modern-industrial-facility-with-steel-structures.jpg",
-  },
-]
+const allPosts = Object.values(blogPosts)
 
 export default function BlogsPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const postsPerPage = 6
-  const totalPages = Math.ceil(blogPosts.length / postsPerPage)
+  const totalPages = Math.ceil(allPosts.length / postsPerPage)
 
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
-  const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost)
+  const currentPosts = allPosts.slice(indexOfFirstPost, indexOfLastPost)
 
   return (
     <main className="min-h-screen bg-white">
@@ -57,7 +27,7 @@ export default function BlogsPage() {
 
       {/* Hero Section */}
       <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center">
-        <Image src="/HERO.png" alt="Blogs Hero" fill className="object-cover" priority />
+        <Image src="/images/HERO.png" alt="Blogs Hero" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">Our Blogs</h1>

@@ -31,12 +31,12 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 text-balance">
-            About Industrial Holdings
+            About Us
           </h1>
           <p className="text-xl text-white/90 max-w-3xl mx-auto text-pretty">
-            A diversified industrial holdings company committed to building
-            sustainable value through operational excellence and strategic
-            management.
+            Value Acquisitions Holdings Inc. is a holding company leading brands
+            in trade, distribution, modern building materials, and industrial
+            construction solutions.
           </p>
         </div>
       </section>
@@ -45,33 +45,28 @@ export default function AboutPage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative h-[600px] bg-gray-100 rounded-lg overflow-hidden">
+            <div className="relative h-[324px] bg-gray-100 rounded-lg overflow-hidden">
               <Image
-                src="/modern-corporate-hq.png"
+                src="/images/corporate-hierarchy.jpg"
                 alt="Company headquarters"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
             <div className="space-y-6">
               <div className="h-1 w-20 bg-accent rounded-full" />
-              <h2 className="text-4xl font-bold text-black">Our Story</h2>
+              <h2 className="text-4xl font-bold text-black">Who Are We</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Founded with a vision to create lasting value in essential
-                industrial sectors, Industrial Holdings Group has grown into a
-                leading holdings company managing diverse businesses across
-                construction, cement production, and industrial materials.
+                Value Acquisitions Holdings Inc. oversees a portfolio of brands
+                that support the nation’s construction, commercial, and
+                industrial sectors. Through unified leadership and strategic
+                direction, we enable each company to operate with excellence,
+                efficiency, and long-term growth.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                We bring together experienced management, strategic capital
-                allocation, and operational expertise to help our portfolio
-                companies achieve market leadership while maintaining the
-                highest standards of quality, safety, and sustainability.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Our approach is built on long-term thinking, responsible growth,
-                and a commitment to delivering value for all stakeholders—from
-                investors and partners to the communities where we operate.
+                Our group is built on a commitment to quality, innovation, and
+                dependable service, delivering essential products and solutions
+                that drive progress across multiple industries.
               </p>
             </div>
           </div>

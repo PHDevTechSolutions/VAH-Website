@@ -1,46 +1,73 @@
 "use client";
 
+import { useState } from "react";
 import type React from "react";
-
+import toast from "react-hot-toast";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { GoldButton } from "@/components/gold-button";
-import { Mail, Phone, MapPin, Building2 } from "lucide-react";
-import { useState } from "react";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import { ScrollToTop } from "@/components/scroll-to-top";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    fullName: "",
     company: "",
+    email: "",
+    phone: "",
     subject: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("[v0] Form submitted:", formData);
-    // Handle form submission
-    alert("Thank you for your message. We will get back to you soon.");
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      toast.success("✅ Your message has been sent!");
+      setFormData({
+        fullName: "",
+        company: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error: any) {
+      toast.error(`❌ ${error.message || "Failed to send message"}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
 
+      {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -67,154 +94,153 @@ export default function ContactPage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16">
-            {/* Contact Information */}
+            {/* Left Side - Contact Details */}
             <div className="space-y-12">
-              <div className="space-y-6">
-                <div className="h-1 w-20 bg-accent rounded-full" />
-                <h2 className="text-4xl font-bold text-black">Let's Connect</h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Whether you're interested in partnership opportunities,
-                  investment inquiries, or general questions about our holdings
-                  group, we're here to help.
-                </p>
-              </div>
+              <h2 className="text-4xl font-bold text-black">Let's Connect</h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Whether you're interested in partnership opportunities,
+                investment inquiries, or general questions, we're here to help.
+              </p>
 
               <div className="space-y-8">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-accent flex items-center justify-center shrink-0 rounded-lg">
-                    <Mail size={24} className="text-black" />
-                  </div>
+                {/* Email */}
+                <div className="flex items-start gap-4">
+                  <Mail size={24} className="text-black shrink-0" />
                   <div>
                     <h3 className="font-semibold text-black mb-1">Email</h3>
                     <p className="text-muted-foreground">
-                      info@industrialholdings.com
-                    </p>
-                    <p className="text-muted-foreground">
-                      investor.relations@industrialholdings.com
+                      info@valueacquisitions.com
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-accent flex items-center justify-center shrink-0 rounded-lg">
-                    <Phone size={24} className="text-black" />
-                  </div>
+                {/* Phone */}
+                <div className="flex items-start gap-4">
+                  <Phone size={24} className="text-black shrink-0" />
                   <div>
                     <h3 className="font-semibold text-black mb-1">Phone</h3>
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
-                    <p className="text-muted-foreground">
-                      +1 (555) 123-4568 (Investor Relations)
-                    </p>
+                    <p className="text-muted-foreground">+63 917 514 2168</p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-accent flex items-center justify-center shrink-0 rounded-lg">
-                    <MapPin size={24} className="text-black" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-black mb-1">Address</h3>
-                    <p className="text-muted-foreground">
-                      Industrial Holdings Group
-                    </p>
-                    <p className="text-muted-foreground">
-                      123 Industrial Parkway, Suite 500
-                    </p>
-                    <p className="text-muted-foreground">
-                      Corporate City, ST 12345
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-accent flex items-center justify-center shrink-0 rounded-lg">
-                    <Building2 size={24} className="text-black" />
-                  </div>
+                {/* Address */}
+                <div className="flex items-start gap-4">
+                  <MapPin size={24} className="text-black shrink-0" />
                   <div>
                     <h3 className="font-semibold text-black mb-1">
-                      Business Hours
+                      Office Address
                     </h3>
                     <p className="text-muted-foreground">
-                      Monday - Friday: 8:00 AM - 6:00 PM
+                      35B Primex Tower, EDSA, corner Connecticut, San Juan City,
+                      1554 Metro Manila
+                    </p>
+                  </div>
+                </div>
+
+                {/* Office Hours */}
+                <div className="flex items-start gap-4">
+                  <Clock size={24} className="text-black shrink-0" />
+                  <div>
+                    <h3 className="font-semibold text-black mb-1">
+                      Office Hours
+                    </h3>
+                    <p className="text-muted-foreground">
+                      Monday - Friday: 9:00 AM - 6:00 PM
                     </p>
                     <p className="text-muted-foreground">
-                      Saturday - Sunday: Closed
+                      Saturday: 10:00 AM - 4:00 PM
                     </p>
+                    <p className="text-muted-foreground">Sunday: Closed</p>
                   </div>
                 </div>
               </div>
+
+              {/* Map Below Contact Details */}
+              <div className="mt-12 rounded-lg overflow-hidden h-64 md:h-80">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.951172645823!2d121.0562963758742!3d14.601857377044297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7ed028007bf%3A0xfa756d0be917a0cf!2sPrimex%20Tower!5e0!3m2!1sen!2sph!4v1765959826579!5m2!1sen!2sph"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="bg-secondary p-8 md:p-12 rounded-lg">
+            {/* Right Side - Contact Form */}
+            <div className="bg-white p-8 md:p-12 rounded-lg border border-gray-200 shadow-sm">
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-black">
+                Send us a message
+              </h2>
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-semibold text-black mb-2"
-                  >
-                    Full Name *
+                  <label className="block text-sm font-semibold text-black mb-2">
+                    Full Name <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
+                    name="fullName"
+                    value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-border focus:border-accent focus:outline-none transition-colors rounded-lg"
+                    required
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DCB485] transition-all"
                   />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-semibold text-black mb-2"
-                  >
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-border focus:border-accent focus:outline-none transition-colors rounded-lg"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="company"
-                    className="block text-sm font-semibold text-black mb-2"
-                  >
+                  <label className="block text-sm font-semibold text-black mb-2">
                     Company / Organization
                   </label>
                   <input
                     type="text"
-                    id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-border focus:border-accent focus:outline-none transition-colors rounded-lg"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DCB485] transition-all"
                   />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-semibold text-black mb-2"
-                  >
-                    Subject *
+                  <label className="block text-sm font-semibold text-black mb-2">
+                    Email Address <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DCB485] transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-black mb-2">
+                    Phone Number <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DCB485] transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-black mb-2">
+                    Subject <span className="text-red-600">*</span>
                   </label>
                   <select
-                    id="subject"
                     name="subject"
-                    required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-border focus:border-accent focus:outline-none transition-colors rounded-lg"
+                    required
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DCB485] transition-all"
                   >
                     <option value="">Select a subject</option>
                     <option value="partnership">Partnership Opportunity</option>
@@ -225,43 +251,25 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-semibold text-black mb-2"
-                  >
-                    Message *
+                  <label className="block text-sm font-semibold text-black mb-2">
+                    Message
                   </label>
                   <textarea
-                    id="message"
                     name="message"
-                    required
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-border focus:border-accent focus:outline-none transition-colors resize-none rounded-lg"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#DCB485] transition-all resize-none"
                   />
                 </div>
 
+                {/* Use imported GoldButton */}
                 <GoldButton type="submit" className="w-full">
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Submit Inquiry"}
                 </GoldButton>
               </form>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="h-[450px] bg-secondary">
-        <div className="w-full h-full">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.951172645823!2d121.0562963758742!3d14.601857377044297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7ed028007bf%3A0xfa756d0be917a0cf!2sPrimex%20Tower!5e0!3m2!1sen!2sph!4v1765864599368!5m2!1sen!2sph"
-            width="100%"
-            height="450"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
         </div>
       </section>
 

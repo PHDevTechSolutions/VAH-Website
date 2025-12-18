@@ -39,7 +39,7 @@ export function Footer() {
 
           {/* Links Column */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: accentColor }}>
+            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: textColor }}>
               QUICK LINKS
             </h4>
             <ul className="space-y-2 text-xs md:text-sm" style={{ color: textColor }}>
@@ -78,7 +78,7 @@ export function Footer() {
 
           {/* Companies Column */}
           <div className="flex flex-col items-center lg:items-start">
-            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: accentColor }}>
+            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: textColor }}>
               OUR COMPANIES
             </h4>
             <div className="grid grid-cols-2 gap-4 w-full max-w-[280px]">
@@ -135,7 +135,7 @@ export function Footer() {
 
           {/* Contact Column */}
           <div className="md:col-span-2 lg:col-span-1">
-            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: accentColor }}>
+            <h4 className="font-semibold mb-4 text-sm md:text-base" style={{ color: textColor }}>
               Connect With Us
             </h4>
             <p className="text-xs md:text-sm mb-4 leading-relaxed" style={{ color: textColor }}>
@@ -147,13 +147,13 @@ export function Footer() {
 
             {/* Social Icons */}
             <div className="flex gap-4">
-              <a href="#" className="transition-colors hover:opacity-70" style={{ color: accentColor }}>
+              <a href="#" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
                 <Facebook size={18} />
               </a>
-              <a href="#" className="transition-colors hover:opacity-70" style={{ color: accentColor }}>
+              <a href="#" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
                 <Instagram size={18} />
               </a>
-              <a href="#" className="transition-colors hover:opacity-70" style={{ color: accentColor }}>
+              <a href="#" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
                 <Mail size={18} />
               </a>
             </div>

@@ -20,7 +20,7 @@ export default function HomePage() {
             src="/images/HERO.png"
             alt="Modern corporate buildings"
             fill
-            className="object-cover blur-md brightness-[0.3]"
+            className="object-cover brightness-[0.20]"
             priority
           />
         </div>

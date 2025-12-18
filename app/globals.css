@@ -140,3 +140,24 @@
 .gradient-gold-border {
   background: linear-gradient(135deg, #dcb485 0%, rgba(220, 180, 133, 0.3) 100%);
 }
+
+@supports (padding: env(safe-area-inset-top)) {
+  .pt-safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .pb-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mobile-only Hero Animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

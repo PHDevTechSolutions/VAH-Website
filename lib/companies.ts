@@ -26,7 +26,7 @@ export const companies: Record<string, Company> = {
   },
   oko: {
     id: "oko",
-    logo: "/images/oko.png",
+    logo: "/images/okonew.png",
     description: "OKO is an innovative construction and infrastructure development company delivering excellence in large-scale projects.",
     overview: "OKO combines modern construction techniques with engineering expertise to deliver complex infrastructure and commercial projects.",
     services: ["Commercial Construction","Infrastructure Development","Residential Projects","Industrial Facilities","Project Management","Design-Build Services"],

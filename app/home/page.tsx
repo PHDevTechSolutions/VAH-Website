@@ -87,7 +87,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 md:gap-8 mt-16">
             {[
               { name: "Buildchem", logo: "/images/buildchem.png" },
-              { name: "OKO", logo: "/images/oko.png" },
+              { name: "OKO", logo: "/images/okonew.png" },
               { name: "Progressive Dynamics", logo: "/images/progdy.png" },
               { name: "Progressive Materials", logo: "/images/progma.png" },
             ].map((company, index) => (

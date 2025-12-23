@@ -18,7 +18,7 @@ export const companies: Record<string, Company> = {
     description: "Buildchem Solutions Inc. is a leading provider of construction chemicals and building materials solutions.",
     overview: "Buildchem has established itself as a trusted partner in the construction industry, offering innovative products that enhance performance, durability, and sustainability.",
     services: ["Construction Chemicals","Waterproofing Solutions","Concrete Admixtures","Tile Adhesives & Grouts","Protective Coatings","Repair & Rehabilitation Products"],
-    keyFeatures: ["Over 20 years of industry experience","ISO 9001 certified quality management","Extensive product portfolio","Technical support and training","Eco-friendly solutions"],
+    keyFeatures: ["Expert Technical Services and On-Site Support","Flexible Pricing Designed for Project Needs","International-Grade Quality and Performance"],
     seo: {
       title: "Buildchem | Construction Chemicals & Building Solutions",
       description: "Buildchem provides premium construction chemicals, concrete admixtures, waterproofing systems, and building solutions.",

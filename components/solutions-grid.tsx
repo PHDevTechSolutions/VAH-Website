@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 import {
   Accordion,
@@ -18,7 +19,7 @@ interface Product {
 }
 
 interface SolutionsGridProps {
-  id?: string; // new
+  id?: string;
   title: string;
   description: string;
   products: Product[];
@@ -37,44 +38,48 @@ const SolutionsGrid = ({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
+  const productImages = [
+    "/images/index1.png", // index 1
+    "/images/index2.png", // index 2
+    "/images/index3.png", // index 3
+    "/images/index4.png", // index 4
+    "/images/index5.png", // index 5
+    "/images/index6.png", // index 6
+    "/images/index7.png", // index 7
+    "/images/index8.png", // index 8
+    "/images/index9.png", // index 9
+    "/images/index10.png", // index 10
+  ];
+
+  const currentImage = productImages[index - 1] || "/images/buildchem.png";
+
   return (
     <motion.div
-      id={id} // move the id here
+      id={id}
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: 0.1 }}
-      className={`grid md:grid-cols-2 gap-8 lg:gap-16 items-center ${
-        reverse ? "md:flex-row-reverse" : ""
-      }`}
+      className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start"
     >
-      {/* LEFT SIDE */}
-      <div className={`${reverse ? "md:order-2" : ""}`}>
-        <div className="inline-flex items-center space-x-2 text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-          <span className="w-8 h-0.5 bg-blue-600 rounded-full"></span>
-          <span>Product Line {String(index).padStart(2, "0")}</span>
+      <div className={`space-y-6 ${reverse ? "md:order-2" : ""}`}>
+        {/* Product Line Section */}
+        <div>
+          <div className="inline-flex items-center space-x-2 text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
+            <span className="w-8 h-0.5 bg-blue-600 rounded-full"></span>
+            <span>Product Line {String(index).padStart(2, "0")}</span>
+          </div>
+
+          <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A] mb-4 leading-tight">
+            {title}
+          </h3>
+
+          <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+            {description}
+          </p>
         </div>
 
-        <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A] mb-4 leading-tight">
-          {title}
-        </h3>
-
-        <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-          {description}
-        </p>
-      </div>
-
-      {/* RIGHT SIDE ACCORDION WITH CARD SHADOW */}
-      <div className={`${reverse ? "md:order-1" : ""}`}>
-        <div
-          className="
-            bg-white 
-            rounded-2xl 
-            p-6 
-            border border-gray-200
-            shadow-lg shadow-blue-100
-          "
-        >
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg shadow-blue-100">
           <div className="flex items-center space-x-2 mb-5">
             <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
             <h4 className="text-sm font-bold text-blue-600 uppercase tracking-wider">
@@ -87,18 +92,9 @@ const SolutionsGrid = ({
               const value = `item-${idx}`;
               return (
                 <div key={idx} className="mb-4">
-                  {" "}
-                  {/* <-- spacing between items */}
                   <AccordionItem
                     value={value}
-                    className="
-            border border-gray-300
-            rounded-xl
-            px-4
-            bg-white
-            hover:bg-blue-50
-            transition-all duration-200
-          "
+                    className="border border-gray-300 rounded-xl px-4 bg-white hover:bg-blue-50 transition-all duration-200"
                   >
                     <AccordionTrigger
                       value={value}
@@ -115,15 +111,7 @@ const SolutionsGrid = ({
                         {product.items.map((item, i) => (
                           <div
                             key={i}
-                            className="
-                    flex items-center 
-                    text-sm 
-                    text-gray-700 
-                    bg-white 
-                    rounded-lg 
-                    px-3 py-2 
-                    border border-gray-200
-                  "
+                            className="flex items-center text-sm text-gray-700 bg-white rounded-lg px-3 py-2 border border-gray-200"
                           >
                             <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-2" />
                             <span>{item}</span>
@@ -136,6 +124,17 @@ const SolutionsGrid = ({
               );
             })}
           </Accordion>
+        </div>
+      </div>
+
+      <div className={`${reverse ? "md:order-1" : ""}`}>
+        <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+          <Image
+            src={currentImage || "/placeholder.svg"}
+            alt={title}
+            fill
+            className="object-cover"
+          />
         </div>
       </div>
     </motion.div>

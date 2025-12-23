@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 
@@ -39,16 +39,16 @@ const SolutionsGrid = ({
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   const productImages = [
-    "/images/index1.png", // index 1
-    "/images/index2.png", // index 2
-    "/images/index3.png", // index 3
-    "/images/index4.png", // index 4
-    "/images/index5.png", // index 5
-    "/images/index6.png", // index 6
-    "/images/index7.png", // index 7
-    "/images/index8.png", // index 8
-    "/images/index9.png", // index 9
-    "/images/index10.png", // index 10
+    "/images/index1.png", 
+    "/images/index2.png",
+    "/images/index3.png",
+    "/images/index4.png",
+    "/images/index5.png",
+    "/images/index6.png",
+    "/images/index7.png",
+    "/images/index8.png",
+    "/images/index9.png",
+    "/images/index10.png",
   ];
 
   const currentImage = productImages[index - 1] || "/images/buildchem.png";
@@ -138,6 +138,87 @@ const SolutionsGrid = ({
         </div>
       </div>
     </motion.div>
+  );
+};
+
+// -------------------- Navigation Header --------------------
+
+interface SolutionsNavProps {
+  solutions: { id?: string; title: string }[];
+}
+
+export const SolutionsNav = ({ solutions }: SolutionsNavProps) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      let current = null;
+      for (const sol of solutions) {
+        const el = document.getElementById(sol.id || "");
+        if (el) {
+          const top = el.getBoundingClientRect().top;
+          if (top <= 100) current = sol.id || null;
+        }
+      }
+      setActiveId(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [solutions]);
+
+  return (
+    <nav className="sticky top-0 z-50 bg-white shadow-md py-3 px-6 flex space-x-6 overflow-x-auto scrollbar-hide">
+      {solutions.map((sol) => (
+        <a
+          key={sol.id}
+          href={`#${sol.id}`}
+          className={`whitespace-nowrap px-3 py-1 rounded-md font-semibold transition-all ${
+            activeId === sol.id
+              ? "bg-blue-600 text-white"
+              : "text-gray-700 hover:bg-blue-50"
+          }`}
+        >
+          {sol.title}
+        </a>
+      ))}
+    </nav>
+  );
+};
+
+// -------------------- Page Wrapper --------------------
+
+interface SolutionsPageProps {
+  solutionsData: {
+    id?: string;
+    title: string;
+    description: string;
+    products: Product[];
+  }[];
+}
+
+export const SolutionsPage = ({ solutionsData }: SolutionsPageProps) => {
+  return (
+    <div>
+      <SolutionsNav
+        solutions={solutionsData.map((s) => ({ id: s.id, title: s.title }))}
+      />
+
+      <div className="space-y-32 mt-6">
+        {solutionsData.map((sol, idx) => (
+          <SolutionsGrid
+            key={sol.id}
+            id={sol.id}
+            title={sol.title}
+            description={sol.description}
+            products={sol.products}
+            index={idx + 1}
+            reverse={idx % 2 === 1}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

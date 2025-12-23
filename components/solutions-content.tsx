@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import SolutionsGrid from "@/components/solutions-grid";
 
@@ -12,17 +12,6 @@ export const SolutionsContent = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const targetIndex = searchParams?.get("scrollTo");
-
-  useEffect(() => {
-    if (targetIndex && pathname === "/solutions") {
-      const element = document.getElementById(`solution-${targetIndex}`);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 50);
-      }
-    }
-  }, [targetIndex, pathname]);
 
   const solutionsData = [
     {
@@ -114,9 +103,58 @@ export const SolutionsContent = () => {
     },
   ];
 
+  // Scroll to target if ?scrollTo= is present
+  useEffect(() => {
+    if (targetIndex && pathname === "/solutions") {
+      const element = document.getElementById(`solution-${targetIndex}`);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 50);
+      }
+    }
+  }, [targetIndex, pathname]);
+
+  // Track active section for nav highlight
+  const [activeId, setActiveId] = useState<string | null>(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      let current: string | null = null;
+      for (const sol of solutionsData) {
+        const el = document.getElementById(`solution-${sol.index}`);
+        if (el) {
+          const top = el.getBoundingClientRect().top;
+          if (top <= 120) current = `solution-${sol.index}`;
+        }
+      }
+      setActiveId(current);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [solutionsData]);
+
   return (
     <section id="products" className="py-20 md:py-28 bg-white" ref={ref}>
       <div className="container mx-auto px-4 lg:px-8">
+        {/* Navigation Header (not sticky) */}
+        <nav className="mb-12 grid grid-cols-2 gap-4">
+          {solutionsData.map((sol) => (
+            <a
+              key={sol.index}
+              href={`#solution-${sol.index}`}
+              className={`block px-3 py-2 rounded-md font-semibold transition-all text-center ${
+                activeId === `solution-${sol.index}`
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-700 hover:bg-blue-50"
+              }`}
+            >
+              {sol.title}
+            </a>
+          ))}
+        </nav>
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -132,7 +170,7 @@ export const SolutionsContent = () => {
           {solutionsData.map((sol) => (
             <div key={sol.index} id={`solution-${sol.index}`}>
               <SolutionsGrid
-                id={`solution-${sol.index}`} // add this prop
+                id={`solution-${sol.index}`}
                 index={sol.index}
                 title={sol.title}
                 description={sol.description}

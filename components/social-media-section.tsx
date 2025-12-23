@@ -1,151 +1,128 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { GoldButton } from "./gold-button"
-import Image from "next/image"
-
-interface SocialPost {
-  id: number
-  platform: string
-  videoUrl: string
-  thumbnail: string
-  caption: string
-}
-
-const socialPosts: SocialPost[] = [
-  {
-    id: 1,
-    platform: "TikTok",
-    videoUrl: "#",
-    thumbnail: "/construction-worker-helmet.png",
-    caption: "Building the future, one project at a time",
-  },
-  {
-    id: 2,
-    platform: "Facebook",
-    videoUrl: "#",
-    thumbnail: "/concrete-pouring.png",
-    caption: "Quality concrete solutions for every need",
-  },
-  {
-    id: 3,
-    platform: "TikTok",
-    videoUrl: "#",
-    thumbnail: "/industrial-construction-equipment.jpg",
-    caption: "Innovation in every build",
-  },
-]
-
-const itemsPerPage = 3
+import { GoldButton } from "@/components/gold-button"
 
 export function SocialMediaSection() {
-  const [currentPage, setCurrentPage] = useState(0)
+  const videos = [
+    "7584314457216683285",
+    "7582776472268459284",
+    "7579164939647028496",
+    "7576572440508157200",
+    "7574606462744268048",
+    "7565049742128942356",
+    "7561994386221829397",
+    "7561247133509225746",
+    "7556420427677977874",
+    "7556417548015652104",
+    "7556090346455813394",
+  ]
 
-  const totalPages = Math.ceil(socialPosts.length / itemsPerPage)
-  const startIndex = currentPage * itemsPerPage
-  const currentPosts = socialPosts.slice(startIndex, startIndex + itemsPerPage)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [itemsPerPage, setItemsPerPage] = useState(1)
+
+  // Responsive breakpoints
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth
+      if (w >= 1280) setItemsPerPage(3) // desktop
+      else if (w >= 768) setItemsPerPage(2) // tablet
+      else setItemsPerPage(1) // mobile
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  const totalPages = Math.ceil(videos.length / itemsPerPage)
+  const startIdx = currentPage * itemsPerPage
+  const currentVideos = videos.slice(startIdx, startIdx + itemsPerPage)
 
   const handlePrevious = () => {
-    if (currentPage > 0) setCurrentPage(currentPage - 1)
+    setCurrentPage((prev) => Math.max(0, prev - 1))
   }
 
   const handleNext = () => {
-    if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1)
+    setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
   }
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/10">
-      <div className="flex items-center justify-between mb-6">
+    <div className="w-full bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h3 className="text-2xl font-bold text-white mb-1">Follow Us</h3>
-          <p className="text-gray-300 text-sm">
-            Bringing ideas to your feed! Discover the latest trends and must-have styles
+          <h3 className="text-2xl sm:text-3xl font-bold text-black mb-2">
+            Follow Us
+          </h3>
+          <p className="text-gray-600 text-sm sm:text-base">
+            BuildChem Solutions Inc., a subsidiary under Progressive Materials Solutions Inc., delivers chemical-based construction products engineered for strength, durability, and long-term performance. Explore our latest innovations and project highlights.
           </p>
         </div>
-        <GoldButton>Follow us on TikTok / Facebook</GoldButton>
+
+        <a
+          href="https://www.tiktok.com/@buildchemsolutionsinc"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-shrink-0"
+        >
+          <GoldButton>Follow us on TikTok</GoldButton>
+        </a>
       </div>
 
-      <div className="relative">
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {currentPosts.map((post) => (
+      {/* TikTok Video Carousel */}
+      <div className="relative flex items-center">
+        {/* Previous Button */}
+        <button
+          onClick={handlePrevious}
+          disabled={currentPage === 0}
+          className="hidden md:flex items-center justify-center bg-accent/20 hover:bg-accent/30 text-accent p-2 rounded-full border border-accent/50 disabled:opacity-30 disabled:cursor-not-allowed mr-4"
+        >
+          <ChevronLeft />
+        </button>
+
+        <div className="flex gap-4 overflow-hidden w-full">
+          {currentVideos.map((videoId) => (
             <div
-              key={post.id}
-              className="bg-black/40 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-accent transition-all duration-300 group cursor-pointer"
+              key={videoId}
+              className="flex-shrink-0 w-full sm:w-1/2 xl:w-1/3 rounded-xl border border-gray-200 overflow-hidden"
             >
-              <div className="relative h-[300px]">
-                <Image
-                  src={post.thumbnail || "/placeholder.svg"}
-                  alt={post.caption}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-
-                {/* Play Icon */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-accent/30 transition-all">
-                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Platform Badge */}
-                <div className="absolute top-4 left-4">
-                  <span className="bg-accent px-3 py-1 rounded-full text-xs font-semibold text-black">
-                    {post.platform}
-                  </span>
-                </div>
-
-                {/* Caption */}
-                <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-white text-sm font-medium">{post.caption}</p>
-                </div>
-              </div>
+              <iframe
+                src={`https://www.tiktok.com/player/v1/${videoId}?&music_info=1&description=1&loop=1`}
+                height="400"
+                width="100%"
+                allow="fullscreen"
+                className="rounded-lg"
+                title={`TikTok video ${videoId}`}
+              />
             </div>
           ))}
         </div>
 
-        {/* Navigation Controls */}
-        <div className="flex items-center justify-between">
+        {/* Next Button */}
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages - 1}
+          className="hidden md:flex items-center justify-center bg-accent/20 hover:bg-accent/30 text-accent p-2 rounded-full border border-accent/50 disabled:opacity-30 disabled:cursor-not-allowed ml-4"
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      {/* Pagination Dots */}
+      <div className="flex justify-center gap-2 mt-4">
+        {Array.from({ length: totalPages }).map((_, index) => (
           <button
-            onClick={handlePrevious}
-            disabled={currentPage === 0}
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white p-2 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Previous"
-          >
-            <ChevronLeft size={20} />
-          </button>
-
-          {/* Page Indicator */}
-          <span className="text-white text-sm">
-            {currentPage + 1} / {totalPages}
-          </span>
-
-          <button
-            onClick={handleNext}
-            disabled={currentPage === totalPages - 1}
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white p-2 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Next"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-
-        {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-6">
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentPage ? "bg-accent w-8" : "bg-gray-400 hover:bg-gray-300"
-              }`}
-              aria-label={`Go to page ${index + 1}`}
-            />
-          ))}
-        </div>
+            key={index}
+            onClick={() => setCurrentPage(index)}
+            className={`rounded-full transition-all duration-300 ${
+              index === currentPage
+                ? "bg-accent w-8 h-3"
+                : "bg-gray-300 w-3 h-3"
+            }`}
+          />
+        ))}
       </div>
     </div>
   )

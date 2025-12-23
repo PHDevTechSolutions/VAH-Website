@@ -109,7 +109,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Concrete Applications Carousel */}
       <section className="py-24 bg-black text-white text-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold text-balance">Our Solutions</h2>
@@ -119,7 +118,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* What's New */}
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <SectionHeader title="What's New" subtitle="Latest updates and insights from our companies" />
@@ -176,25 +174,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Get In Touch with Social Media Section */}
       <section className="py-24 bg-black text-white relative overflow-hidden">
         <div className="absolute inset-0 gradient-gold-to-transparent opacity-10" />
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-12 relative z-10">
-          {/* Get In Touch */}
-          <div className="text-center space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-balance">Ready to Build the Future Together?</h2>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              Connect with us to explore partnership opportunities and learn more about our companies.
-            </p>
-            <Link href="/contact">
-              <GoldButton>Get In Touch</GoldButton>
-            </Link>
-          </div>
-
-          {/* Social Media Section */}
-          <SocialMediaSection />
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center space-y-8 relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold text-balance">Ready to Build the Future Together?</h2>
+          <p className="text-xl text-gray-300 leading-relaxed">
+            Connect with us to explore partnership opportunities and learn more about our companies.
+          </p>
+          <Link href="/contact">
+            <GoldButton>Get In Touch</GoldButton>
+          </Link>
         </div>
       </section>
+
+      <SocialMediaSection />
 
       <Footer />
       <ScrollToTop />

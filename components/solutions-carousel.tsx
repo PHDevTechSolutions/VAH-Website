@@ -1,17 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-interface SolutionsCarousel {
+interface SolutionsCarouselItem {
   index: number
   title: string
   description: string
   image: string
 }
 
-const applications: SolutionsCarousel[] = [
+const applications: SolutionsCarouselItem[] = [
   {
     index: 1,
     title: "Superplasticizers & High-Range Water Reducers",
@@ -86,8 +86,30 @@ const applications: SolutionsCarousel[] = [
 
 export function SolutionsCarousel() {
   const [currentPage, setCurrentPage] = useState(0)
+  const [isMobile, setIsMobile] = useState(true)
 
-  const itemsPerPage = 2
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => {
+        const totalPages = Math.ceil(applications.length / (isMobile ? 1 : 2))
+        return (prev + 1) % totalPages
+      })
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [isMobile])
+
+  const itemsPerPage = isMobile ? 1 : 2
   const totalPages = Math.ceil(applications.length / itemsPerPage)
   const startIdx = currentPage * itemsPerPage
   const currentItems = applications.slice(startIdx, startIdx + itemsPerPage)
@@ -101,38 +123,39 @@ export function SolutionsCarousel() {
   }
 
   return (
-    <div className="space-y-8 bg-black">
-      <div className="relative flex items-center justify-center gap-4">
+    <div className="space-y-6 sm:space-y-8 bg-black px-4 sm:px-6 lg:px-8 py-8 sm:py-12 rounded-lg">
+      <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
         {/* Previous Button */}
         <button
           onClick={handlePrevious}
           disabled={currentPage === 0}
-          className="flex-shrink-0 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white p-3 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110"
+          className="hidden md:flex flex-shrink-0 bg-accent/20 hover:bg-accent/30 border border-accent/50 text-accent p-2.5 sm:p-3 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-95"
           aria-label="Previous page"
         >
-          <ChevronLeft size={28} />
+          <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
         </button>
 
-        {/* Grid Container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 flex-1 max-w-4xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 flex-1 w-full max-w-5xl">
           {currentItems.map((app) => (
             <div
               key={app.index}
-              className="group relative overflow-hidden rounded-lg border border-border hover:border-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+              className="group relative overflow-hidden rounded-xl border border-white/20 hover:border-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
             >
-              <div className="relative h-72 w-full">
+              <div className="relative h-56 sm:h-64 md:h-72 w-full overflow-hidden bg-gray-900">
                 <Image
-                  src={app.image || "/placeholder.svg"}
+                  src={app.image || "/placeholder.svg?height=288&width=400"}
                   alt={app.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
               </div>
 
-              <div className="absolute inset-0 flex flex-col justify-end p-6 text-white">
-                <h3 className="text-xl font-bold mb-2 group-hover:text-accent transition-colors">{app.title}</h3>
-                <p className="text-sm text-white/85 line-clamp-3 group-hover:text-white transition-colors">
+              <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5 md:p-6 text-white">
+                <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-white group-hover:text-accent transition-colors line-clamp-2">
+                  {app.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-white/85 line-clamp-2 sm:line-clamp-3 group-hover:text-white transition-colors">
                   {app.description}
                 </p>
               </div>
@@ -144,30 +167,32 @@ export function SolutionsCarousel() {
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages - 1}
-          className="flex-shrink-0 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white p-3 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110"
+          className="hidden md:flex flex-shrink-0 bg-accent/20 hover:bg-accent/30 border border-accent/50 text-accent p-2.5 sm:p-3 rounded-full transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:scale-110 active:scale-95"
           aria-label="Next page"
         >
-          <ChevronRight size={28} />
+          <ChevronRight size={20} className="sm:w-6 sm:h-6" />
         </button>
       </div>
 
-      {/* Navigation Indicators */}
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-3 sm:gap-4">
         {/* Page Indicator */}
-        <div className="text-white text-sm font-medium">
+        <div className="text-white text-xs sm:text-sm font-medium tracking-wide">
           {currentPage + 1} / {totalPages}
         </div>
 
         {/* Dots Indicator */}
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
           {Array.from({ length: totalPages }).map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentPage(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentPage ? "bg-accent w-8" : "bg-gray-400 hover:bg-gray-300"
+              className={`rounded-full transition-all duration-300 ${
+                index === currentPage
+                  ? "bg-accent w-7 h-2.5 sm:w-8 sm:h-3"
+                  : "bg-white/30 hover:bg-white/50 w-2.5 h-2.5 sm:w-3 sm:h-3"
               }`}
               aria-label={`Go to page ${index + 1}`}
+              aria-current={index === currentPage}
             />
           ))}
         </div>

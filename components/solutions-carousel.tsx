@@ -1,14 +1,15 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SolutionsCarouselItem {
-  index: number
-  title: string
-  description: string
-  image: string
+  index: number;
+  title: string;
+  description: string;
+  image: string;
 }
 
 const applications: SolutionsCarouselItem[] = [
@@ -82,45 +83,42 @@ const applications: SolutionsCarouselItem[] = [
       "Specialized cleaners engineered to remove cement residue, efflorescence, and contaminants, preparing surfaces for coatings, repairs, or finishing.",
     image: "/images/index10.png",
   },
-]
+];
 
 export function SolutionsCarousel() {
-  const [currentPage, setCurrentPage] = useState(0)
-  const [isMobile, setIsMobile] = useState(true)
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isMobile, setIsMobile] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentPage((prev) => {
-        const totalPages = Math.ceil(applications.length / (isMobile ? 1 : 2))
-        return (prev + 1) % totalPages
-      })
-    }, 5000)
+        const totalPages = Math.ceil(applications.length / (isMobile ? 1 : 2));
+        return (prev + 1) % totalPages;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isMobile]);
 
-    return () => clearInterval(interval)
-  }, [isMobile])
+  const itemsPerPage = isMobile ? 1 : 2;
+  const totalPages = Math.ceil(applications.length / itemsPerPage);
+  const startIdx = currentPage * itemsPerPage;
+  const currentItems = applications.slice(startIdx, startIdx + itemsPerPage);
 
-  const itemsPerPage = isMobile ? 1 : 2
-  const totalPages = Math.ceil(applications.length / itemsPerPage)
-  const startIdx = currentPage * itemsPerPage
-  const currentItems = applications.slice(startIdx, startIdx + itemsPerPage)
+  const handlePrevious = () => setCurrentPage((prev) => Math.max(0, prev - 1));
+  const handleNext = () =>
+    setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1));
 
-  const handlePrevious = () => {
-    setCurrentPage((prev) => Math.max(0, prev - 1))
-  }
-
-  const handleNext = () => {
-    setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1))
-  }
+  // Navigate to solutions page with scrollTo query param
+  const goToSolutionPage = (index: number) =>
+    router.push(`/solutions?scrollTo=${index}`);
 
   return (
     <div className="space-y-6 sm:space-y-8 bg-black px-4 sm:px-6 lg:px-8 py-8 sm:py-12 rounded-lg">
@@ -138,8 +136,9 @@ export function SolutionsCarousel() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 flex-1 w-full max-w-5xl">
           {currentItems.map((app) => (
             <div
-              key={app.index}
-              className="group relative overflow-hidden rounded-xl border border-white/20 hover:border-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+              key={`carousel-${app.index}`}
+              onClick={() => goToSolutionPage(app.index)}
+              className="cursor-pointer group relative overflow-hidden rounded-xl border border-white/20 hover:border-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
             >
               <div className="relative h-56 sm:h-64 md:h-72 w-full overflow-hidden bg-gray-900">
                 <Image
@@ -150,7 +149,6 @@ export function SolutionsCarousel() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
               </div>
-
               <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5 md:p-6 text-white">
                 <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2 text-white group-hover:text-accent transition-colors line-clamp-2">
                   {app.title}
@@ -182,21 +180,24 @@ export function SolutionsCarousel() {
 
         {/* Dots Indicator */}
         <div className="flex justify-center gap-2 sm:gap-3 flex-wrap">
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index)}
-              className={`rounded-full transition-all duration-300 ${
-                index === currentPage
-                  ? "bg-accent w-7 h-2.5 sm:w-8 sm:h-3"
-                  : "bg-white/30 hover:bg-white/50 w-2.5 h-2.5 sm:w-3 sm:h-3"
-              }`}
-              aria-label={`Go to page ${index + 1}`}
-              aria-current={index === currentPage}
-            />
-          ))}
+          {Array.from({ length: totalPages }).map((_, index) => {
+            const firstItemIndex = index * itemsPerPage + 1;
+            return (
+              <button
+                key={`dot-${index}`}
+                onClick={() => goToSolutionPage(firstItemIndex)}
+                className={`rounded-full transition-all duration-300 ${
+                  index === currentPage
+                    ? "bg-accent w-7 h-2.5 sm:w-8 sm:h-3"
+                    : "bg-white/30 hover:bg-white/50 w-2.5 h-2.5 sm:w-3 sm:h-3"
+                }`}
+                aria-label={`Go to solution ${firstItemIndex}`}
+                aria-current={index === currentPage}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
-  )
+  );
 }

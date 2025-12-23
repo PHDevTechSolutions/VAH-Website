@@ -1,30 +1,47 @@
-import { Navbar } from "@/components/navbar"
-import { Footer } from "@/components/footer"
-import { ScrollToTop } from "@/components/scroll-to-top"
-import { companies } from "@/lib/companies"
-import type { Metadata } from "next"
-import { notFound } from "next/navigation"
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
+import { ScrollToTop } from "@/components/scroll-to-top";
+import { companies } from "@/lib/companies";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
-export const dynamic = "force-static"
+export const dynamic = "force-static";
 
 type PageProps = {
-  params: { id: string }
-}
+  params: { id: string };
+};
 
 // Make the page an async server component
 export default async function CompanyDetailPage({ params }: PageProps) {
   // unwrap params (in Next 16+, params can be a Promise)
-  const resolvedParams = await params
-  const company = companies[resolvedParams.id]
+  const resolvedParams = await params;
+  const company = companies[resolvedParams.id];
 
-  if (!company) notFound()
+  if (!company) notFound();
 
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
+
+      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src={
+              resolvedParams.id === "buildchem"
+                ? "/images/buildchem-hero.png"
+                : "/images/HERO.png"
+            }
+            alt="Modern corporate buildings"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
+      </section>
 
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-6">
@@ -45,12 +62,16 @@ export default async function CompanyDetailPage({ params }: PageProps) {
             />
 
             <div>
-              <p className="text-xl text-muted-foreground">{company.description}</p>
+              <p className="text-xl text-muted-foreground">
+                {company.description}
+              </p>
             </div>
 
             <div>
               <h2 className="text-2xl font-bold mb-2">Overview</h2>
-              <p className="text-muted-foreground text-lg">{company.overview}</p>
+              <p className="text-muted-foreground text-lg">
+                {company.overview}
+              </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-12">
@@ -93,5 +114,5 @@ export default async function CompanyDetailPage({ params }: PageProps) {
       <Footer />
       <ScrollToTop />
     </main>
-  )
+  );
 }

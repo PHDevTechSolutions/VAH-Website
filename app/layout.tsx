@@ -40,6 +40,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Site Verification Meta Tag */}
+        <meta
+          name="google-site-verification"
+          content="google9418c893d0d47009" // <-- your verification code here
+        />
+      </head>
       <body className={`${inter.className} font-sans antialiased`}>
         {children}
         <Toaster position="top-right" />

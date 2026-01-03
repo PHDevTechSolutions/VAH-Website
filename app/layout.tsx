@@ -95,11 +95,3 @@ export default function RootLayout({
     </html>
   );
 }
-      </head>
-      <body className={`${inter.className} font-sans antialiased`}>
-        {children}
-        <Toaster position="top-right" />
-      </body>
-    </html>
-  );
-}

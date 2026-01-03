@@ -12,6 +12,19 @@ import { SocialMediaSection } from "@/components/social-media-section";
 
 export default function HomePage() {
   return (
+    <>
+    <Head>
+        <meta
+          name="google-site-verification"
+          content="google9418c893d0d47009"
+        />
+        <title>Value Acquisitions Inc.</title>
+        <meta
+          name="description"
+          content="Leading industrial holdings company managing construction, cement production, and industrial materials with strength, reliability, and scale."
+        />
+      </Head>
+      
     <div className="min-h-screen bg-white">
       <Navbar />
       {/* HERO */}
@@ -236,5 +249,6 @@ export default function HomePage() {
       <Footer />
       <ScrollToTop />
     </div>
+    </>
   );
 }

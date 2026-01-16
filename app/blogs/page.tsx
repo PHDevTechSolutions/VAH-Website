@@ -1,25 +1,54 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { ScrollToTop } from "@/components/scroll-to-top"
-import { Calendar } from "lucide-react"
+import { Calendar, Loader2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { blogPosts } from "@/lib/blogs"
-
-const allPosts = Object.values(blogPosts)
+import { db } from "@/lib/firebase"
+import { collection, query, orderBy, getDocs, where } from "firebase/firestore"
 
 export default function BlogsPage() {
+  const [allPosts, setAllPosts] = useState<any[]>([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [loading, setLoading] = useState(true)
   const postsPerPage = 6
-  const totalPages = Math.ceil(allPosts.length / postsPerPage)
 
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"), where("website", "==", "VAH"))
+        const querySnapshot = await getDocs(q)
+        const blogs = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        setAllPosts(blogs)
+      } catch (error) {
+        console.error("Error fetching blogs:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBlogs()
+  }, [])
+
+  const totalPages = Math.ceil(allPosts.length / postsPerPage)
   const indexOfLastPost = currentPage * postsPerPage
   const indexOfFirstPost = indexOfLastPost - postsPerPage
   const currentPosts = allPosts.slice(indexOfFirstPost, indexOfLastPost)
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-white flex items-center justify-center">
+        <Loader2 className="animate-spin text-accent" size={40} />
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -37,75 +66,100 @@ export default function BlogsPage() {
 
       <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            {currentPosts.map((post, index) => (
-              <Link href={`/blogs/${post.id}`} key={post.id}>
-                <div
-                  className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg cursor-pointer"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={post.image || "/placeholder.svg"}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-8 space-y-4 relative z-10">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Calendar size={16} />
-                      <span>{post.date}</span>
+          {/* Empty State */}
+          {allPosts.length === 0 ? (
+            <div className="text-center py-32">
+              <p className="text-xl text-muted-foreground mb-4">
+                No blogs available at the moment.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Check back later for insights and updates from our industry experts.
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Blogs Grid */}
+              <div className="grid md:grid-cols-2 gap-8">
+                {currentPosts.map((blog, index) => (
+                  <Link href={`/blogs/${blog.slug || blog.id}`} key={blog.id}>
+                    <div
+                      className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg cursor-pointer"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <div className="relative h-64 overflow-hidden">
+                        <Image
+                          src={blog.coverImage || "/placeholder.svg"}
+                          alt={blog.title}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="p-8 space-y-4 relative z-10">
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Calendar size={16} />
+                          <span>
+                            {blog.date ||
+                              (blog.createdAt instanceof Object
+                                ? new Date(blog.createdAt.toDate()).toLocaleDateString()
+                                : blog.createdAt)}
+                          </span>
+                        </div>
+                        <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
+                          {blog.title}
+                        </h3>
+                        <p className="text-muted-foreground leading-relaxed">
+                          {(
+                            blog.excerpt ||
+                            blog.sections?.[0]?.description ||
+                            ""
+                          ).slice(0, 120) + ((blog.excerpt?.length || blog.sections?.[0]?.description?.length) > 120 ? "…" : "")}
+                        </p>
+                        <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
+                          <span>Read More</span>
+                          <span className="transform group-hover:translate-x-2 transition-transform duration-500">→</span>
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
-                      {post.title}
-                    </h3>
-                    <p className="text-muted-foreground leading-relaxed">{post.excerpt}</p>
-                    <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
-                      <span>Read More</span>
-                      <span className="transform group-hover:translate-x-2 transition-transform duration-500">→</span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-12">
-              <Button
-                variant="outline"
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
-              >
-                Previous
-              </Button>
-              <div className="flex gap-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <Button
-                    key={page}
-                    variant={currentPage === page ? "default" : "outline"}
-                    onClick={() => setCurrentPage(page)}
-                    className={
-                      currentPage === page
-                        ? "bg-accent hover:bg-accent/90 text-white border-2 border-accent"
-                        : "border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
-                    }
-                  >
-                    {page}
-                  </Button>
+                  </Link>
                 ))}
               </div>
-              <Button
-                variant="outline"
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className="border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
-              >
-                Next
-              </Button>
-            </div>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-12 flex-wrap">
+                  <Button
+                    variant="outline"
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                    className="border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
+                  >
+                    Previous
+                  </Button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <Button
+                      key={page}
+                      variant={currentPage === page ? "default" : "outline"}
+                      onClick={() => setCurrentPage(page)}
+                      className={
+                        currentPage === page
+                          ? "bg-accent hover:bg-accent/90 text-white border-2 border-accent"
+                          : "border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
+                      }
+                    >
+                      {page}
+                    </Button>
+                  ))}
+                  <Button
+                    variant="outline"
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                    className="border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
+                  >
+                    Next
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

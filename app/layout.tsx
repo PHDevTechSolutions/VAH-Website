@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import { Inter } from "next/font/google";
+import Script from "next/script"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 const inter = Inter({
@@ -41,18 +43,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="google-site-verification" content="ZmQ30Eoo_grE_3GEMiZoWyKFGhj6LdE2hxvWpUKyAFE" />
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-TC7926M3');</script>
-
+        <meta
+          name="google-site-verification"
+          content="ZmQ30Eoo_grE_3GEMiZoWyKFGhj6LdE2hxvWpUKyAFE"
+        />
+          <Script id="gtm-script" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){
+              w[l]=w[l]||[];
+              w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+              var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
+              j.async=true;
+              j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+              f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-XXXXXXX');
+          `}
+        </Script>
       </head>
       <body className={`${inter.className} font-sans antialiased`}>
         {children}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TC7926M3"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <Analytics />
         <Toaster position="top-right" />
       </body>
     </html>

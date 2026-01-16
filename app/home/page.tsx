@@ -1,16 +1,59 @@
+"use client";
+
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { SectionHeader } from "@/components/section-header";
 import { GoldButton } from "@/components/gold-button";
 import Stack from "@/components/stack";
-import { Calendar } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ScrollToTop } from "@/components/scroll-to-top";
 import { SolutionsCarousel } from "@/components/solutions-carousel";
 import { SocialMediaSection } from "@/components/social-media-section";
+import { collection, query, orderBy, getDocs, where } from "firebase/firestore"
+import { db } from "@/lib/firebase"
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const [allPosts, setAllPosts] = useState<any[]>([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [loading, setLoading] = useState(true)
+    const postsPerPage = 2
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"), where("website", "==", "VAH"))
+        const querySnapshot = await getDocs(q)
+        const blogs = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        setAllPosts(blogs)
+      } catch (error) {
+        console.error("Error fetching blogs:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBlogs()
+  }, [])
+
+  const totalPages = Math.ceil(allPosts.length / postsPerPage)
+  const indexOfLastPost = currentPage * postsPerPage
+  const indexOfFirstPost = indexOfLastPost - postsPerPage
+  const currentPosts = allPosts.slice(indexOfFirstPost, indexOfLastPost)
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-white flex items-center justify-center">
+        <Loader2 className="animate-spin text-accent" size={40} />
+      </main>
+    )
+  }
+  
   return (
     <> 
     <div className="min-h-screen bg-white">
@@ -155,69 +198,61 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <SectionHeader
-            title="What's New"
-            subtitle="Latest updates and insights from our companies"
-          />
-          <div className="grid md:grid-cols-2 gap-8 mt-16">
-            {[
-              {
-                id: "1",
-                title: "Buildchem Launches New Eco-Friendly Product Line",
-                date: "December 15, 2024",
-                excerpt:
-                  "Introducing sustainable construction chemicals that reduce environmental impact without compromising performance.",
-                image: "/images/blogs.jpg",
-              },
-              {
-                id: "2",
-                title:
-                  "Progressive Dynamics Completes Major Infrastructure Project",
-                date: "December 10, 2024",
-                excerpt:
-                  "Successfully delivered a landmark bridge construction project ahead of schedule, showcasing engineering excellence.",
-                image: "/images/blogs.jpg",
-              },
-            ].map((post, index) => (
-              <Link
-                key={post.id}
-                href={`/blogs/${post.id}`}
-                className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={post.image || "/placeholder.svg"}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+      {allPosts.length > 0 && (
+  <section className="py-24 bg-background">
+    <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <SectionHeader
+        title="What's New"
+        subtitle="Latest updates and insights from our companies"
+      />
+      <div className="grid md:grid-cols-2 gap-8 mt-16">
+        {currentPosts.map((blog, index) => (
+          <Link href={`/blogs/${blog.slug || blog.id}`} key={blog.id}>
+            <div
+              className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg cursor-pointer"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src={blog.coverImage || "/placeholder.svg"}
+                  alt={blog.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-8 space-y-4 relative z-10">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Calendar size={16} />
+                  <span>
+                    {blog.date ||
+                      (blog.createdAt instanceof Object
+                        ? new Date(blog.createdAt.toDate()).toLocaleDateString()
+                        : blog.createdAt)}
+                  </span>
                 </div>
-                <div className="p-8 space-y-4 relative z-10">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar size={16} />
-                    <span>{post.date}</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
-                    {post.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                  <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
-                    <span>Read More</span>
-                    <span className="transform group-hover:translate-x-2 transition-transform duration-500">
-                      →
-                    </span>
-                  </div>
+                <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
+                  {blog.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {(
+                    blog.excerpt ||
+                    blog.sections?.[0]?.description ||
+                    ""
+                  ).slice(0, 120) + ((blog.excerpt?.length || blog.sections?.[0]?.description?.length) > 120 ? "…" : "")}
+                </p>
+                <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
+                  <span>Read More</span>
+                  <span className="transform group-hover:translate-x-2 transition-transform duration-500">→</span>
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
       <section className="py-24 bg-black text-white relative overflow-hidden">
         <div className="absolute inset-0 gradient-gold-to-transparent opacity-10" />
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center space-y-8 relative z-10">

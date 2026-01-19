@@ -73,6 +73,11 @@ export function Footer() {
                   Privacy Policy
                 </a>
               </li>
+               <li>
+                <a href="/careers" className="hover:opacity-80 transition-opacity" style={{ color: textColor }}>
+                  Careers
+                </a>
+              </li>
             </ul>
           </div>
 

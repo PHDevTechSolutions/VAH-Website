@@ -6,22 +6,26 @@ import { cn } from "@/lib/utils";
 
 interface AccordionContextProps {
   openItem: string | null;
-  setOpenItem: (id: string) => void;
   type?: "single" | "multiple";
   openItems: string[];
   toggleItem: (id: string) => void;
 }
 
 const AccordionContext = createContext<AccordionContextProps | null>(null);
+const AccordionItemContext = createContext<{ value: string } | null>(null);
 
 export function Accordion({
   children,
   type = "single",
+  collapsible = false, // Added collapsible support
   defaultValue,
+  className
 }: {
   children: React.ReactNode;
   type?: "single" | "multiple";
+  collapsible?: boolean;
   defaultValue?: string | string[];
+  className?: string;
 }) {
   const [openItem, setOpenItem] = useState<string | null>(
     typeof defaultValue === "string" ? defaultValue : null
@@ -33,21 +37,21 @@ export function Accordion({
 
   const toggleItem = (id: string) => {
     if (type === "single") {
-      setOpenItem(openItem === id ? null : id);
-    } else {
-      if (openItems.includes(id)) {
-        setOpenItems(openItems.filter((i) => i !== id));
+      if (collapsible) {
+        setOpenItem(openItem === id ? null : id);
       } else {
-        setOpenItems([...openItems, id]);
+        setOpenItem(id);
       }
+    } else {
+      setOpenItems(prev => 
+        prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+      );
     }
   };
 
   return (
-    <AccordionContext.Provider
-      value={{ openItem, setOpenItem, type, openItems, toggleItem }}
-    >
-      <div>{children}</div>
+    <AccordionContext.Provider value={{ openItem, type, openItems, toggleItem }}>
+      <div className={className}>{children}</div>
     </AccordionContext.Provider>
   );
 }
@@ -61,38 +65,42 @@ export function AccordionItem({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={cn("border-b", className)}>{children}</div>;
+  return (
+    <AccordionItemContext.Provider value={{ value }}>
+      <div className={cn("border-b", className)}>{children}</div>
+    </AccordionItemContext.Provider>
+  );
 }
 
 export function AccordionTrigger({
-  value,
   children,
   className,
 }: {
-  value: string;
   children: React.ReactNode;
   className?: string;
 }) {
   const ctx = useContext(AccordionContext);
-  if (!ctx) throw new Error("AccordionTrigger must be inside Accordion");
+  const itemCtx = useContext(AccordionItemContext);
+  
+  if (!ctx || !itemCtx) throw new Error("AccordionTrigger must be inside AccordionItem");
 
-  const isOpen =
-    ctx.type === "single"
-      ? ctx.openItem === value
-      : ctx.openItems.includes(value);
+  const isOpen = ctx.type === "single" 
+    ? ctx.openItem === itemCtx.value 
+    : ctx.openItems.includes(itemCtx.value);
 
   return (
     <button
-      onClick={() => ctx.toggleItem(value)}
+      type="button"
+      onClick={() => ctx.toggleItem(itemCtx.value)}
       className={cn(
-        "flex w-full items-center justify-between py-4 font-medium transition-all hover:underline",
+        "flex w-full items-center justify-between py-4 font-medium transition-all hover:no-underline",
         className
       )}
     >
       {children}
       <ChevronDown
         className={cn(
-          "h-4 w-4 shrink-0 transition-transform duration-200",
+          "h-4 w-4 shrink-0 transition-transform duration-200 text-muted-foreground",
           isOpen && "rotate-180"
         )}
       />
@@ -101,27 +109,26 @@ export function AccordionTrigger({
 }
 
 export function AccordionContent({
-  value,
   children,
   className,
 }: {
-  value: string;
   children: React.ReactNode;
   className?: string;
 }) {
   const ctx = useContext(AccordionContext);
-  if (!ctx) throw new Error("AccordionContent must be inside Accordion");
+  const itemCtx = useContext(AccordionItemContext);
 
-  const isOpen =
-    ctx.type === "single"
-      ? ctx.openItem === value
-      : ctx.openItems.includes(value);
+  if (!ctx || !itemCtx) throw new Error("AccordionContent must be inside AccordionItem");
+
+  const isOpen = ctx.type === "single" 
+    ? ctx.openItem === itemCtx.value 
+    : ctx.openItems.includes(itemCtx.value);
 
   return (
     <div
       className={cn(
-        "overflow-hidden text-sm transition-all duration-300",
-        isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0",
+        "overflow-hidden text-sm transition-all duration-300 ease-in-out",
+        isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0",
         className
       )}
     >

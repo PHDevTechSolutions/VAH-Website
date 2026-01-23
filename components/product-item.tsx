@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useCart } from '@/components/cart-context';
-import { CartItem } from '@/components/cart-context';
-import { Check, Plus } from 'lucide-react';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useCart } from "@/components/cart-context";
+import { CartItem } from "@/components/cart-context";
+import { Check, Plus } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 interface ProductItemProps {
   solutionId: string;
@@ -63,10 +63,10 @@ export function ProductItem({
           disabled={inCart}
           className={`flex items-center gap-1 flex-shrink-0 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium ${
             inCart
-              ? 'bg-green-50 text-green-600 cursor-not-allowed'
-              : 'bg-blue-50 text-blue-600 hover:bg-blue-100 active:scale-95'
+              ? "bg-green-50 text-green-600 cursor-not-allowed"
+              : "bg-blue-50 text-blue-600 hover:bg-blue-100 active:scale-95"
           }`}
-          aria-label={inCart ? 'Added to cart' : 'Add to Catalog Cart'}
+          aria-label={inCart ? "Added to cart" : "Add to Catalog Cart"}
         >
           {inCart ? (
             <>

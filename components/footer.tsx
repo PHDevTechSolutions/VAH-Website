@@ -11,7 +11,9 @@ export function Footer() {
   const footerBg = isSolutionsPage
     ? "linear-gradient(180deg, #FFFFFF 0%, #E6F0FF 50%, #4A90E2 100%)"
     : "linear-gradient(180deg, #FFFFFF 0%, #F5F5DC 50%, #DCB485 100%)"
-  const logoSrc = "/images/vah-dark.png"
+  const logoSrc = isSolutionsPage
+    ? "/images/buildchem.png"
+    : "/images/vah-logo-2.png"
   const textColor = "#1a1a1a"
   const accentColor = isSolutionsPage ? "#4A90E2" : "#DCB485"
   const borderColor = isSolutionsPage ? "rgba(74, 144, 226, 0.3)" : "rgba(220, 180, 133, 0.3)"
@@ -152,10 +154,10 @@ export function Footer() {
 
             {/* Social Icons */}
             <div className="flex gap-4">
-              <a href="#" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
+              <a href="https://www.facebook.com/BuildChemSolutionsInc/" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
                 <Facebook size={18} />
               </a>
-              <a href="#" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
+              <a href="https://www.instagram.com/buildchemsolutionsincph/" className="transition-colors hover:opacity-70" style={{ color: textColor }}>
                 <Instagram size={18} />
               </a>
               <a href="#" className="transition-colors hover:opacity-70" style={{ color: textColor }}>

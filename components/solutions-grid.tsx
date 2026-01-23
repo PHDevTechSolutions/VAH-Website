@@ -1,22 +1,29 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import { useEffect, useRef } from "react"
 import { ChevronRight } from "lucide-react"
 import Image from "next/image"
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { ProductItem } from "@/components/product-item"
+import { cn } from "@/lib/utils"
+
+interface ProductSubItem {
+  id?: string
+  name: string
+  pdfUrl: string
+}
 
 interface Product {
   id?: string
   category: string
-  items: Array<{
-    id?: string
-    name: string
-    pdfUrl: string
-  }>
+  items: ProductSubItem[]
 }
 
 interface SolutionsGridProps {
@@ -29,21 +36,48 @@ interface SolutionsGridProps {
   index: number
 }
 
-const SolutionsGrid = ({ id, solutionId, title, description, products, reverse, index }: SolutionsGridProps) => {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
+const SolutionsGrid = ({
+  id,
+  solutionId,
+  title,
+  description,
+  products,
+  reverse,
+  index,
+}: SolutionsGridProps) => {
+  const ref = useRef<HTMLDivElement>(null)
+
+  const isInView = useInView(ref, {
+    amount: 0.3,
+    margin: "-10% 0px -40% 0px",
+  })
+
+  const slugify = (text: string) =>
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w ]+/g, "")
+      .replace(/ +/g, "-")
+
+  useEffect(() => {
+    if (isInView) {
+      const slug = slugify(title)
+      document.title = `${title} | Buildchem Solutions`
+      window.history.replaceState(null, "", `#${slug}`)
+    }
+  }, [isInView, title])
 
   const productImages = [
-    "/images/index1.png", // index 1
-    "/images/index2.png", // index 2
-    "/images/index3.png", // index 3
-    "/images/index4.png", // index 4
-    "/images/index5.png", // index 5
-    "/images/index6.png", // index 6
-    "/images/index7.png", // index 7
-    "/images/index8.png", // index 8
-    "/images/index9.png", // index 9
-    "/images/index10.png", // index 10
+    "/images/index1.png",
+    "/images/index2.png",
+    "/images/index3.png",
+    "/images/index4.png",
+    "/images/index5.png",
+    "/images/index6.png",
+    "/images/index7.png",
+    "/images/index8.png",
+    "/images/index9.png",
+    "/images/index10.png",
   ]
 
   const currentImage = productImages[index - 1] || "/images/buildchem.png"
@@ -52,73 +86,88 @@ const SolutionsGrid = ({ id, solutionId, title, description, products, reverse, 
     <motion.div
       id={id}
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: 0.1 }}
-      className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8 }}
+      className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start py-16 border-b border-gray-100 last:border-0 scroll-mt-24"
     >
-      <div className={`space-y-6 ${reverse ? "md:order-2" : ""}`}>
-        {/* Product Line Section */}
+      {/* LEFT CONTENT */}
+      <div className={cn("space-y-8", reverse ? "md:order-2" : "md:order-1")}>
         <div>
-          <div className="inline-flex items-center space-x-2 text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">
-            <span className="w-8 h-0.5 bg-blue-600 rounded-full"></span>
-            <span>Product Line {String(index).padStart(2, "0")}</span>
+          <div className="inline-flex items-center space-x-3 text-blue-600 mb-6">
+            <span className="w-12 h-[2px] bg-blue-600" />
+            <span className="text-xs font-black uppercase tracking-[0.3em]">
+              Product Line {String(index).padStart(2, "0")}
+            </span>
           </div>
 
-          <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#0A0A0A] mb-4 leading-tight">{title}</h3>
+          <h3 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+            {title}
+          </h3>
 
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed">{description}</p>
+          <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
+            {description}
+          </p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-lg shadow-blue-100">
-          <div className="flex items-center space-x-2 mb-5">
-            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-            <h4 className="text-sm font-bold text-blue-600 uppercase tracking-wider">Available Products</h4>
-          </div>
+        {/* ACCORDION */}
+        <div className="bg-[#F8FAFC] rounded-3xl p-2 border border-gray-100">
+          <Accordion collapsible className="w-full space-y-2">
+            {products.map((product, idx) => (
+              <AccordionItem
+                key={idx}
+                value={`item-${index}-${idx}`}
+                className="border-0 bg-white rounded-2xl shadow-sm overflow-hidden"
+              >
+                <AccordionTrigger className="px-6 py-5 hover:no-underline group">
+                  <div className="flex items-center text-left">
+                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mr-4 group-hover:bg-blue-600 transition-colors">
+                      <ChevronRight className="w-4 h-4 text-blue-600 group-hover:text-white transition-colors" />
+                    </div>
+                    <span className="text-gray-900 font-bold tracking-tight">
+                      {product.category}
+                    </span>
+                  </div>
+                </AccordionTrigger>
 
-          <Accordion type="single" defaultValue="item-0">
-            {products.map((product, idx) => {
-              const value = `item-${idx}`
-              return (
-                <div key={idx} className="mb-4">
-                  <AccordionItem
-                    value={value}
-                    className="border border-gray-300 rounded-xl px-4 bg-white hover:bg-blue-50 transition-all duration-200"
-                  >
-                    <AccordionTrigger value={value} className="text-[#0A0A0A] font-semibold hover:no-underline py-4">
-                      <span className="flex items-center">
-                        <ChevronRight className="w-4 h-4 mr-2 text-blue-600" />
-                        {product.category}
-                      </span>
-                    </AccordionTrigger>
-
-                    <AccordionContent value={value} className="pb-4">
-                      <div className="space-y-2 pt-1">
-                        {product.items.map((item, i) => (
-                          <ProductItem
-                            key={i}
-                            solutionId={solutionId || `solution-${index}`}
-                            solutionTitle={title}
-                            seriesId={product.id || `series-${idx}`}
-                            seriesName={product.category}
-                            productId={item.id || item.name}
-                            productName={item.name}
-                            pdfUrl={item.pdfUrl}
-                          />
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </div>
-              )
-            })}
+                <AccordionContent className="px-6 pb-4">
+                  {/* 🔥 SCROLL CONTAINER FIX */}
+                  <div className="space-y-3 max-h-[420px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                    {product.items.map((item, i) => (
+                      <ProductItem
+                        key={i}
+                        solutionId={solutionId || `solution-${index}`}
+                        solutionTitle={title}
+                        seriesId={product.id || `series-${idx}`}
+                        seriesName={product.category}
+                        productId={item.id || item.name}
+                        productName={item.name}
+                        pdfUrl={item.pdfUrl}
+                      />
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
       </div>
 
-      <div className={`${reverse ? "md:order-1" : ""}`}>
-        <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-          <Image src={currentImage || "/placeholder.svg"} alt={title} fill className="object-cover" />
+      {/* RIGHT IMAGE */}
+      <div
+        className={cn(
+          "relative md:sticky md:top-32",
+          reverse ? "md:order-1" : "md:order-2"
+        )}
+      >
+        <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl">
+          <Image
+            src={currentImage}
+            alt={title}
+            fill
+            className="object-cover transition-transform duration-700 hover:scale-105"
+          />
         </div>
       </div>
     </motion.div>

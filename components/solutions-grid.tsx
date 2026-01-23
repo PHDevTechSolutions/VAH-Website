@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useInView } from "framer-motion"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ChevronRight } from "lucide-react"
 import Image from "next/image"
 
@@ -36,6 +36,8 @@ interface SolutionsGridProps {
   index: number
 }
 
+const ITEMS_PER_PAGE = 10 // max items per page
+
 const SolutionsGrid = ({
   id,
   solutionId,
@@ -46,11 +48,9 @@ const SolutionsGrid = ({
   index,
 }: SolutionsGridProps) => {
   const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { amount: 0.3, margin: "-10% 0px -40% 0px" })
 
-  const isInView = useInView(ref, {
-    amount: 0.3,
-    margin: "-10% 0px -40% 0px",
-  })
+  const [currentPage, setCurrentPage] = useState(1)
 
   const slugify = (text: string) =>
     text
@@ -79,8 +79,17 @@ const SolutionsGrid = ({
     "/images/index9.png",
     "/images/index10.png",
   ]
-
   const currentImage = productImages[index - 1] || "/images/buildchem.png"
+
+  // Pagination logic
+  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE)
+  const paginatedProducts =
+    products.length > ITEMS_PER_PAGE
+      ? products.slice(
+          (currentPage - 1) * ITEMS_PER_PAGE,
+          currentPage * ITEMS_PER_PAGE
+        )
+      : products
 
   return (
     <motion.div
@@ -114,7 +123,7 @@ const SolutionsGrid = ({
         {/* ACCORDION */}
         <div className="bg-[#F8FAFC] rounded-3xl p-2 border border-gray-100">
           <Accordion collapsible className="w-full space-y-2">
-            {products.map((product, idx) => (
+            {paginatedProducts.map((product, idx) => (
               <AccordionItem
                 key={idx}
                 value={`item-${index}-${idx}`}
@@ -132,7 +141,6 @@ const SolutionsGrid = ({
                 </AccordionTrigger>
 
                 <AccordionContent className="px-6 pb-4">
-                  {/* 🔥 SCROLL CONTAINER FIX */}
                   <div className="space-y-3 max-h-[420px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
                     {product.items.map((item, i) => (
                       <ProductItem
@@ -151,6 +159,29 @@ const SolutionsGrid = ({
               </AccordionItem>
             ))}
           </Accordion>
+
+          {/* PAGINATION CONTROLS */}
+          {products.length > ITEMS_PER_PAGE && (
+            <div className="flex justify-center items-center mt-4 space-x-3">
+              <button
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 rounded bg-blue-50 text-blue-600 disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <span className="text-gray-700">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 rounded bg-blue-50 text-blue-600 disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

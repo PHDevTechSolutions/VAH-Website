@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react"
-import Image from "next/image"
-import { SolutionsCartDrawer } from "./solutions-cart-drawer"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -13,23 +12,23 @@ const navItems = [
   { name: "Solutions", href: "/solutions" },
   { name: "Companies", href: "/companies" },
   { name: "Blogs", href: "/blogs" },
-]
+];
 
 export function Navbar() {
-  const pathname = usePathname()
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isSolutionsPage = pathname === "/solutions"
-  const isContactPage = pathname === "/contact"
+  const isSolutionsPage = pathname === "/solutions";
+  const isContactPage = pathname === "/contact";
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <nav
@@ -44,9 +43,15 @@ export function Navbar() {
             className="flex items-center group"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            <div className={`relative w-12 h-12 transition-all duration-300 ${isScrolled ? "brightness-0" : ""}`}>
+            <div
+              className={`relative w-12 h-12 transition-all duration-300 ${isScrolled ? "brightness-0" : ""}`}
+            >
               <Image
-                src={isSolutionsPage ? "/images/buildchem-small.png" : "/images/vah-white-small.png"}
+                src={
+                  isSolutionsPage
+                    ? "/images/buildchem-small.png"
+                    : "/images/vah-white-small.png"
+                }
                 alt={isSolutionsPage ? "Buildchem Logo" : "VAH Logo"}
                 fill
                 className="object-contain"
@@ -87,20 +92,18 @@ export function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            {isSolutionsPage && <SolutionsCartDrawer />}
             <Link
               href="/contact"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className={`px-6 py-2 text-sm font-medium transition-all duration-300 rounded-lg border-2 ${
-  isSolutionsPage
-    ? isContactPage
-      ? "bg-blue-600 text-white border-blue-600"
-      : "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
-    : isContactPage
-      ? "bg-accent text-black border-accent"
-      : "bg-accent text-black border-accent hover:bg-accent/90"
-}`}
-
+                isSolutionsPage
+                  ? isContactPage
+                    ? "bg-blue-600 text-white border-blue-600"
+                    : "bg-blue-600 text-white border-blue-600 hover:bg-blue-700"
+                  : isContactPage
+                    ? "bg-accent text-black border-accent"
+                    : "bg-accent text-black border-accent hover:bg-accent/90"
+              }`}
             >
               Contact Us
             </Link>
@@ -120,28 +123,30 @@ export function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-border">
           <div className="px-6 py-4 space-y-2">
-            {[...navItems, { name: "Contact Us", href: "/contact" }].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => {
-                  setIsMobileMenuOpen(false)
-                  window.scrollTo({ top: 0, behavior: "smooth" })
-                }}
-                className={`block px-4 py-3 text-base font-medium transition-colors rounded-lg ${
-                  pathname === item.href
-                    ? isSolutionsPage
-                      ? "text-black bg-blue-600/20 font-semibold"
-                      : "text-black bg-accent/20 font-semibold"
-                    : "text-muted-foreground hover:text-black hover:bg-secondary"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {[...navItems, { name: "Contact Us", href: "/contact" }].map(
+              (item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className={`block px-4 py-3 text-base font-medium transition-colors rounded-lg ${
+                    pathname === item.href
+                      ? isSolutionsPage
+                        ? "text-black bg-blue-600/20 font-semibold"
+                        : "text-black bg-accent/20 font-semibold"
+                      : "text-muted-foreground hover:text-black hover:bg-secondary"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              ),
+            )}
           </div>
         </div>
       )}
     </nav>
-  )
+  );
 }

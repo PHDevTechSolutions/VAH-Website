@@ -1,42 +1,42 @@
-"use client"
+"use client";
 
-import { motion, useInView } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
-import { ChevronRight } from "lucide-react"
-import Image from "next/image"
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
-import { ProductItem } from "@/components/product-item"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/accordion";
+import { ProductItem } from "@/components/product-item";
+import { cn } from "@/lib/utils";
 
 interface ProductSubItem {
-  id?: string
-  name: string
-  pdfUrl: string
+  id?: string;
+  name: string;
+  pdfUrl: string;
 }
 
 interface Product {
-  id?: string
-  category: string
-  items: ProductSubItem[]
+  id?: string;
+  category: string;
+  items: ProductSubItem[];
 }
 
 interface SolutionsGridProps {
-  id?: string
-  solutionId?: string
-  title: string
-  description: string
-  products: Product[]
-  reverse?: boolean
-  index: number
+  id?: string;
+  solutionId?: string;
+  title: string;
+  description: string;
+  products: Product[];
+  reverse?: boolean;
+  index: number;
 }
 
-const ITEMS_PER_PAGE = 10 // max items per page
+const ITEMS_PER_PAGE = 10;
 
 const SolutionsGrid = ({
   id,
@@ -47,25 +47,25 @@ const SolutionsGrid = ({
   reverse,
   index,
 }: SolutionsGridProps) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { amount: 0.3, margin: "-10% 0px -40% 0px" })
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { amount: 0.3, margin: "-10% 0px -40% 0px" });
 
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
 
   const slugify = (text: string) =>
     text
       .toLowerCase()
       .trim()
       .replace(/[^\w ]+/g, "")
-      .replace(/ +/g, "-")
+      .replace(/ +/g, "-");
 
   useEffect(() => {
     if (isInView) {
-      const slug = slugify(title)
-      document.title = `${title} | Buildchem Solutions`
-      window.history.replaceState(null, "", `#${slug}`)
+      const slug = slugify(title);
+      document.title = `${title} | Buildchem Solutions`;
+      window.history.replaceState(null, "", `#${slug}`);
     }
-  }, [isInView, title])
+  }, [isInView, title]);
 
   const productImages = [
     "/images/index1.png",
@@ -78,18 +78,17 @@ const SolutionsGrid = ({
     "/images/index8.png",
     "/images/index9.png",
     "/images/index10.png",
-  ]
-  const currentImage = productImages[index - 1] || "/images/buildchem.png"
+  ];
+  const currentImage = productImages[index - 1] || "/images/buildchem.png";
 
-  // Pagination logic
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE)
+  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
   const paginatedProducts =
     products.length > ITEMS_PER_PAGE
       ? products.slice(
           (currentPage - 1) * ITEMS_PER_PAGE,
-          currentPage * ITEMS_PER_PAGE
+          currentPage * ITEMS_PER_PAGE,
         )
-      : products
+      : products;
 
   return (
     <motion.div
@@ -99,7 +98,7 @@ const SolutionsGrid = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.8 }}
-      className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start py-16 border-b border-gray-100 last:border-0 scroll-mt-24"
+      className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start py-16 border-b border-gray-100 last:border-0 scroll-mt-24"
     >
       {/* LEFT CONTENT */}
       <div className={cn("space-y-8", reverse ? "md:order-2" : "md:order-1")}>
@@ -174,7 +173,9 @@ const SolutionsGrid = ({
                 Page {currentPage} of {totalPages}
               </span>
               <button
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
                 disabled={currentPage === totalPages}
                 className="px-3 py-1 rounded bg-blue-50 text-blue-600 disabled:opacity-50"
               >
@@ -185,11 +186,11 @@ const SolutionsGrid = ({
         </div>
       </div>
 
-      {/* RIGHT IMAGE */}
+      {/* RIGHT IMAGE - Now hidden on mobile */}
       <div
         className={cn(
-          "relative md:sticky md:top-32",
-          reverse ? "md:order-1" : "md:order-2"
+          "hidden md:block relative md:sticky md:top-32",
+          reverse ? "md:order-1" : "md:order-2",
         )}
       >
         <div className="relative aspect-[4/5] md:aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl">
@@ -202,7 +203,7 @@ const SolutionsGrid = ({
         </div>
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
-export default SolutionsGrid
+export default SolutionsGrid;

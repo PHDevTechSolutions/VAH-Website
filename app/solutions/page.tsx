@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Suspense } from "react";
 import { SolutionsContent } from "@/components/solutions-content";
-import { ScrollToTop } from "@/components/scroll-to-top";
 import { SolutionsScrollNav } from "@/components/solutions-scroll-nav";
+import { SolutionsCartDrawer } from "@/components/solutions-cart-drawer"; // Import here
 
 export const metadata: Metadata = {
   title: "Solutions | Buildchem",
@@ -18,7 +18,11 @@ export default function SolutionsPage() {
     <div className="min-h-screen bg-white">
       <Navbar />
 
+      {/* FLOATING CART BUTTON */}
+      <SolutionsCartDrawer />
+
       <section className="relative h-[60vh] flex items-center justify-center pt-24 overflow-hidden">
+        {/* ... hero content remains the same ... */}
         <div className="absolute inset-0">
           <Image
             src="/images/HERO.png"
@@ -28,7 +32,7 @@ export default function SolutionsPage() {
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 text-balance">
             BuildChem Solutions
@@ -39,6 +43,7 @@ export default function SolutionsPage() {
           </p>
         </div>
       </section>
+
       <Suspense fallback={<div>Loading solutions...</div>}>
         <SolutionsScrollNav
           solutions={[
@@ -60,7 +65,6 @@ export default function SolutionsPage() {
         <SolutionsContent />
       </Suspense>
       <Footer />
-      <ScrollToTop />
     </div>
   );
 }

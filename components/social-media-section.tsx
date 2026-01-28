@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
 import { GoldButton } from "@/components/gold-button"
 // Make sure you have your firebase config initialized in @/lib/firebase
 import { db } from "@/lib/firebase" 
-import { collection, getDocs } from "firebase/firestore"
+import { collection, getDocs, query, where } from "firebase/firestore"
 
 export function SocialMediaSection() {
   const [videos, setVideos] = useState<string[]>([])
@@ -17,7 +17,8 @@ export function SocialMediaSection() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "reels"))
+        const q = query(collection(db, "reels"), where("website", "==", "VAH"), where("visibility", "==", "public"))
+        const querySnapshot = await getDocs(q)
         // Map through docs to grab the 'url' field
         const videoIds = querySnapshot.docs.map(doc => doc.data().url)
         setVideos(videoIds)

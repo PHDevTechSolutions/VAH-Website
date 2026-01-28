@@ -62,11 +62,11 @@ export default function CheckoutPage() {
         requestedItems: processedItems,
         source: "Website Catalog Request",
         status: "new",
-        createdAt: serverTimestamp(),
+        requestedAt: serverTimestamp(),
       };
 
       // 2. Record lead in Firestore
-      const docRef = await addDoc(collection(db, "inquiries"), inquiryData);
+      const docRef = await addDoc(collection(db, "catalog_requests"), inquiryData);
 
       // 3. Trigger Email API
       const response = await fetch("/api/solutions/send-catalogs", {

@@ -128,7 +128,7 @@ export default async function CompanyDetailPage({ params }: PageProps) {
                     <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
                     <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-                    <InfiniteSlider gap={80} speed={30}>
+                    <InfiniteSlider gap={100} speed={40}>
                       {company.partnersImage.map((url: string, idx: number) => (
                         <div
                           key={idx}
@@ -137,7 +137,8 @@ export default async function CompanyDetailPage({ params }: PageProps) {
                           <img
                             src={url}
                             alt="Partner"
-                            className="h-10 md:h-12 w-auto object-contain grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
+                            // Increased from h-10 md:h-12 to h-16 md:h-20
+                            className="h-26 md:h-30 w-auto object-contain opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
                           />
                         </div>
                       ))}

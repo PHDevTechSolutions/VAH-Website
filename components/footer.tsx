@@ -156,21 +156,27 @@ export function Footer() {
 
             <div className="flex gap-5">
               <a
-                href="#"
+                href="https://www.facebook.com/BuildChemSolutionsInc/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="transition-all hover:opacity-50"
                 style={{ color: textColor }}
               >
                 <Facebook size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/buildchemsolutionsincph/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="transition-all hover:opacity-50"
                 style={{ color: textColor }}
               >
                 <Instagram size={20} />
               </a>
               <a
-                href="#"
+                href="mailto:info@buildchem.com.ph"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="transition-all hover:opacity-50"
                 style={{ color: textColor }}
               >

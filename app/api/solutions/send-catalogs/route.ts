@@ -12,7 +12,7 @@ const LOGO_PATH = path.join(process.cwd(), 'public', 'images', 'buildchem.png');
 interface CatalogItem {
   productId: string;
   productName: string;
-  pdfUrl: string;
+  pdfUrl: string; // Can be an empty string if processed by our new frontend logic
   solutionTitle: string;
 }
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       },
     });
 
-    // Function to generate email HTML
+    // Function to generate email HTML wrapper
     const EmailCard = (content: string) => {
       return `
         <!DOCTYPE html>
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
           <body style="margin:0; padding:40px; background:#f4f4f4; font-family:Arial, sans-serif;">
             <div style="max-width:640px; margin:0 auto; background:#ffffff; border-radius:12px; padding:40px 32px; box-shadow:0 4px 14px rgba(0,0,0,0.08);">
               <div style="text-align:center; margin-bottom:28px;">
-                <img src="cid:vah-logo-2" style="width:150px;" />
+                <img src="cid:vah-logo-2" style="width:150px;" alt="BuildChem Logo" />
               </div>
               ${content}
             </div>
@@ -66,39 +66,51 @@ export async function POST(req: Request) {
       `;
     };
 
-    // Customer email content
+    // --- CRITICAL FIX HERE ---
+    // We check if pdfUrl exists. If NOT, we show "Unavailable" text instead of a broken button.
+    // This ensures the item still appears in the list even if the file is missing.
     const catalogList = catalogs
-      .map(
-        (cat: CatalogItem) => `
+      .map((cat: CatalogItem) => {
+        // Determine what to show: A Download Button or a Status Message
+        const downloadLink = (cat.pdfUrl && cat.pdfUrl.length > 5)
+          ? `<a href="${cat.pdfUrl}" style="color:#ffffff; background-color:#0066cc; padding: 8px 16px; border-radius: 4px; text-decoration:none; font-weight:bold; font-size:12px; display:inline-block;">Download PDF ↓</a>`
+          : `<span style="color:#999; font-size:12px; font-style:italic;">Datasheet pending update</span>`;
+
+        return `
         <tr>
-          <td style="padding:12px 0; border-bottom:1px solid #e5e5e5;">
+          <td style="padding:16px 0; border-bottom:1px solid #e5e5e5;">
             <div style="margin-bottom:4px;">
               <span style="font-size:11px; color:#0066cc; font-weight:bold; text-transform:uppercase;">
-                ${cat.solutionTitle}
+                ${cat.solutionTitle || 'Product Solution'}
               </span>
             </div>
-            <div style="font-weight:600; color:#0a0a0a; margin-bottom:2px;">
+            <div style="font-weight:600; color:#0a0a0a; margin-bottom:8px; font-size:16px;">
               ${cat.productName}
             </div>
-            <div style="font-size:12px; color:#666;">
-              <a href="${cat.pdfUrl}" style="color:#0066cc; text-decoration:none; font-weight:500;">Download Catalog →</a>
+            <div>
+              ${downloadLink}
             </div>
           </td>
         </tr>
-      `
-      )
-      .join('');
+      `;
+      })
+      .join(''); // .join('') ensures all array items are concatenated into one string
 
     const userContent = `
-      <h2 style="margin:0 0 16px; font-size:22px; text-align:center;">
+      <h2 style="margin:0 0 16px; font-size:22px; text-align:center; color:#111;">
         Your Product Catalogs Are Ready
       </h2>
-      <p style="font-size:15px; line-height:24px;">
+      <p style="font-size:15px; line-height:24px; color:#444;">
         Hi ${name || 'there'},<br><br>
-        Thank you for your interest in BuildChem products. Below are the catalogs you requested. Click any link to download.
+        Thank you for your interest in BuildChem products. You requested <strong>${catalogs.length}</strong> catalog${catalogs.length !== 1 ? 's' : ''}.
+        <br>Please find your download links below:
       </p>
-      <table style="width:100%; margin:24px 0;">${catalogList}</table>
-      <p style="font-size:14px; line-height:24px; color:#0a0a0a;">
+      <table style="width:100%; border-collapse: collapse; margin:24px 0;">
+        ${catalogList}
+      </table>
+      <p style="font-size:14px; line-height:24px; color:#666; border-top: 1px solid #eee; padding-top: 20px;">
+        If you have trouble downloading any files, please reply to this email directly.
+        <br><br>
         Best regards,<br />
         <strong>The BuildChem Team</strong>
       </p>
@@ -108,13 +120,22 @@ export async function POST(req: Request) {
     const adminContent = `
       <h2 style="margin:0 0 16px; font-size:22px;">New Catalog Request</h2>
       <p style="line-height:24px; font-size:15px;">
-        A user has requested product catalogs.
+        A user has requested product catalogs via the website.
       </p>
-      <p><strong>Email:</strong> ${email}</p>
-      ${name ? `<p><strong>Name:</strong> ${name}</p>` : ''}
-      ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
-      <p><strong>Requested Catalogs (${catalogs.length}):</strong></p>
-      <ul>${catalogs.map((c: CatalogItem) => `<li>${c.productName} (${c.solutionTitle})</li>`).join('')}</ul>
+      <div style="background:#f9f9f9; padding:15px; border-radius:8px; margin-bottom:20px;">
+        <p style="margin:5px 0;"><strong>Name:</strong> ${name || 'N/A'}</p>
+        <p style="margin:5px 0;"><strong>Email:</strong> ${email}</p>
+        <p style="margin:5px 0;"><strong>Company:</strong> ${company || 'N/A'}</p>
+      </div>
+      <p><strong>Requested Items (${catalogs.length}):</strong></p>
+      <ul>
+        ${catalogs.map((c: CatalogItem) => `
+          <li>
+            <strong>${c.productName}</strong> 
+            <br><span style="font-size:12px; color:#666;">${c.pdfUrl ? 'PDF Sent' : 'No PDF Available'}</span>
+          </li>
+        `).join('')}
+      </ul>
     `;
 
     // Send customer email
@@ -136,7 +157,7 @@ export async function POST(req: Request) {
     await transporter.sendMail({
       from: `"BuildChem" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: `📩 New Catalog Request — ${email}`,
+      subject: `📩 New Catalog Request (${catalogs.length}) — ${name || email}`,
       attachments: [
         {
           filename: 'vah-logo-2.png',

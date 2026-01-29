@@ -63,7 +63,7 @@ const SolutionsGrid = ({
     if (isInView) {
       const slug = slugify(title);
       document.title = `${title} | Buildchem Solutions`;
-      window.history.replaceState(null, "", `#${slug}`);
+      window.history.replaceState(null, "", `/solutions/${slug}`);
     }
   }, [isInView, title]);
 

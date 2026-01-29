@@ -81,68 +81,52 @@ export default function HomePage() {
         <Navbar />
 
         {/* HERO SECTION (Static/Existing) */}
-        <section className="relative min-h-[85vh] md:h-screen flex items-center justify-center overflow-hidden pt-safe-top pb-safe-bottom">
-          <div className="absolute inset-0">
+        {/* HERO SECTION */}
+        {/* HERO SECTION */}
+        {/* HERO SECTION */}
+        <section className="relative min-h-[85vh] md:h-screen flex items-center overflow-hidden pt-safe-top pb-safe-bottom bg-black">
+          {/* 1. IMAGE CONTAINER */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black">
             <Image
               src="/images/vah-hero.png"
               alt="Modern corporate buildings"
               fill
-              className="object-cover brightness-[0.20]"
+              className="object-contain brightness-[0.45]" // Slightly higher brightness since gradients handle the darkness now
               priority
             />
           </div>
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-black" />
-          <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 lg:gap-12 text-center md:text-left">
-              <div className="max-w-lg shrink w-full md:w-auto mx-auto md:mx-0 animate-[fadeUp_0.6s_ease-out] md:animate-fade-in">
-                <h1 className="text-[22px] xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-3 text-balance leading-tight">
-                  Building the Foundation
-                  <span className="block text-accent">of Tomorrow</span>
-                </h1>
-                <p className="text-[13px] xs:text-sm sm:text-base md:text-lg text-white/90 mb-6 text-pretty leading-relaxed">
-                  A leading industrial holdings company managing construction,
-                  cement production, and industrial materials with strength,
-                  reliability, and scale.
-                </p>
-                <div className="flex flex-col sm:flex-row items-center md:items-start gap-4">
-                  <Link href="/companies">
-                    <GoldButton>Learn More</GoldButton>
-                  </Link>
-                </div>
-              </div>
-              <div className="w-[300px] h-[112px] sm:w-[380px] sm:h-36 md:w-[450px] md:h-[171px] lg:w-[600px] lg:h-[227px] shrink-0 drop-shadow-2xl mx-auto md:mx-0">
-                <Stack
-                  randomRotation={false}
-                  sensitivity={180}
-                  sendToBackOnClick={true}
-                  autoplay={true}
-                  autoplayDelay={3000}
-                  pauseOnHover={true}
-                  cards={[
-                    <div
-                      key={0}
-                      className="w-full h-full bg-white rounded-2xl overflow-hidden shadow-2xl"
-                    >
-                      <Image
-                        src="/images/vah-hero.png"
-                        alt="VAH"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>,
-                    <div
-                      key={1}
-                      className="w-full h-full bg-white rounded-2xl overflow-hidden shadow-2xl"
-                    >
-                      <Image
-                        src="/images/buildchem-hero.png"
-                        alt="Buildchem"
-                        fill
-                        className="object-contain"
-                      />
-                    </div>,
-                  ]}
-                />
+
+          {/* 2. MULTI-DIRECTIONAL GRADIENTS */}
+          {/* TOP: Fades the image into the Navbar */}
+          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black via-black/60 to-transparent z-10" />
+
+          {/* BOTTOM: Fades the image into the Solutions section */}
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
+
+          {/* RIGHT: Intense horizontal gradient to provide a dark backdrop for the text */}
+          <div className="absolute inset-y-0 right-0 w-full md:w-2/3 bg-gradient-to-l from-black via-black/90 to-transparent z-10 hidden md:block" />
+
+          {/* 3. CONTENT CONTAINER */}
+          <div className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 w-full flex justify-center md:justify-end">
+            {/* TEXT CONTENT - Pushed to the right and right-aligned */}
+            <div className="max-w-xl w-full text-center md:text-right animate-[fadeUp_0.6s_ease-out] md:animate-fade-in flex flex-col items-center md:items-end">
+              <h1 className="text-[24px] xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4 text-balance leading-[1.1]">
+                Building the Foundation
+                <span className="block text-accent">of Tomorrow</span>
+              </h1>
+
+              <p className="text-[14px] xs:text-base md:text-lg text-white/90 mb-8 text-pretty leading-relaxed max-w-md">
+                A leading industrial holdings company managing construction,
+                cement production, and industrial materials with strength,
+                reliability, and scale.
+              </p>
+
+              <div className="flex justify-center md:justify-end w-full">
+                <Link href="/companies">
+                  <GoldButton className="px-8 py-6 text-lg">
+                    Learn More
+                  </GoldButton>
+                </Link>
               </div>
             </div>
           </div>

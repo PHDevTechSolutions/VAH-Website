@@ -109,7 +109,7 @@ export const SolutionsScrollNav = ({ solutions }: SolutionsScrollNavProps) => {
       });
 
       // Update URL immediately upon click
-      window.history.pushState(null, "", `#${slug}`);
+      window.history.pushState(null, "", `/solutions/${slug}`);
     }
   };
 

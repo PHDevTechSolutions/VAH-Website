@@ -18,7 +18,7 @@ export default async function CompaniesPage() {
   const companiesRef = collection(db, "company");
   const q = query(
     companiesRef,
-    where("website", "==", "VAH"),
+    where("website", "==", "Value Acquisitions Holdings"),
     orderBy("companyName", "asc"),
   );
 

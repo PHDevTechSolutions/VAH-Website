@@ -43,7 +43,7 @@ export default function HomePage() {
         // 2. Fetch Companies
         const companyQuery = query(
           collection(db, "company"),
-          where("website", "==", "VAH"),
+          where("website", "==", "Value Acquisitions Holdings"),
           orderBy("companyName", "asc"), // Alphabetical order
         );
         const companySnap = await getDocs(companyQuery);

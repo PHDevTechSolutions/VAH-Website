@@ -33,7 +33,7 @@ export function Footer() {
       try {
         const q = query(
           collection(db, "company"),
-          where("website", "==", "VAH"),
+          where("website", "==", "Value Acquisitions Holdings"),
           orderBy("companyName", "asc"),
         );
         const querySnapshot = await getDocs(q);

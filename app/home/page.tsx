@@ -188,12 +188,14 @@ export default function HomePage() {
               />
               <div className="grid md:grid-cols-2 gap-8 mt-16">
                 {currentPosts.map((blog, index) => (
-                  <Link href={`/blogs/${blog.slug || blog.id}`} key={blog.id}>
+                  <Link href={`/blogs/${blog.slug || blog.id}`} key={blog.id} className="group">
+
                     <div
-                      className="bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] overflow-hidden group transition-all duration-500 animate-fade-in relative rounded-lg"
+                      className="flex flex-col h-full bg-white border-2 border-border hover:border-accent hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] overflow-hidden transition-all duration-500 animate-fade-in relative rounded-lg"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
-                      <div className="relative h-64 overflow-hidden">
+
+                      <div className="relative h-64 w-full overflow-hidden shrink-0">
                         <Image
                           src={blog.coverImage || "/placeholder.svg"}
                           alt={blog.title}
@@ -201,29 +203,34 @@ export default function HomePage() {
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
-                      <div className="p-8 space-y-4 relative z-10">
+
+
+                      <div className="p-8 flex flex-col flex-grow space-y-4 relative z-10">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Calendar size={16} />
                           <span>
                             {blog.createdAt instanceof Object
-                              ? new Date(
-                                  blog.createdAt.toDate(),
-                                ).toLocaleDateString()
+                              ? new Date(blog.createdAt.toDate()).toLocaleDateString()
                               : blog.createdAt}
                           </span>
                         </div>
-                        <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
+
+
+                        <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500 line-clamp-2 min-h-[4rem]">
                           {blog.title}
                         </h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {(
-                            blog.excerpt ||
-                            blog.sections?.[0]?.description ||
-                            ""
-                          ).slice(0, 120)}
-                          ...
+
+
+                        <p className="text-muted-foreground leading-relaxed line-clamp-3 flex-grow">
+                          {(() => {
+                            const rawDescription = blog.excerpt || blog.sections?.[0]?.description || "";
+
+                            return rawDescription.replace(/<\/?[^>]+(>|$)/g, "");
+                          })()}
                         </p>
-                        <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2">
+
+
+                        <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 pt-4 border-t border-gray-50">
                           <span>Read More</span>
                           <span className="transform group-hover:translate-x-2 transition-transform duration-500">
                             →

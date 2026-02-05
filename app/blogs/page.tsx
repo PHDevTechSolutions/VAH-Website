@@ -20,7 +20,13 @@ export default function BlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"), where("website", "==", "VAH"))
+        // Query remains "VAH" as per your requirement
+        const q = query(
+          collection(db, "blogs"), 
+          where("website", "==", "VAH"),
+          orderBy("createdAt", "desc")
+        )
+        
         const querySnapshot = await getDocs(q)
         const blogs = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -98,22 +104,23 @@ export default function BlogsPage() {
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Calendar size={16} />
                           <span>
-                            {blog.date ||
-                              (blog.createdAt instanceof Object
-                                ? new Date(blog.createdAt.toDate()).toLocaleDateString()
-                                : blog.createdAt)}
+                            {blog.createdAt?.toDate 
+                              ? new Date(blog.createdAt.toDate()).toLocaleDateString()
+                              : blog.date || "Recent Post"}
                           </span>
                         </div>
                         <h3 className="text-2xl font-bold text-black group-hover:text-accent transition-colors duration-500">
                           {blog.title}
                         </h3>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {(
-                            blog.excerpt ||
-                            blog.sections?.[0]?.description ||
-                            ""
-                          ).slice(0, 120) + ((blog.excerpt?.length || blog.sections?.[0]?.description?.length) > 120 ? "…" : "")}
-                        </p>
+<p className="text-muted-foreground leading-relaxed">
+  {(
+    blog.excerpt ||
+    blog.sections?.[0]?.description ||
+    ""
+  )
+    .replace(/<\/?[^>]+(>|$)/g, "") // Heto ang magic line para burahin ang <h2>, <strong>, etc.
+    .slice(0, 120) + ((blog.excerpt?.length || blog.sections?.[0]?.description?.length) > 120 ? "…" : "")}
+</p>
                         <div className="text-sm font-semibold text-black group-hover:text-accent flex items-center space-x-2 transition-colors duration-500">
                           <span>Read More</span>
                           <span className="transform group-hover:translate-x-2 transition-transform duration-500">→</span>
@@ -129,7 +136,10 @@ export default function BlogsPage() {
                 <div className="flex justify-center items-center gap-2 mt-12 flex-wrap">
                   <Button
                     variant="outline"
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    onClick={() => {
+                        setCurrentPage((prev) => Math.max(prev - 1, 1));
+                        window.scrollTo(0, 0);
+                    }}
                     disabled={currentPage === 1}
                     className="border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
                   >
@@ -139,7 +149,10 @@ export default function BlogsPage() {
                     <Button
                       key={page}
                       variant={currentPage === page ? "default" : "outline"}
-                      onClick={() => setCurrentPage(page)}
+                      onClick={() => {
+                          setCurrentPage(page);
+                          window.scrollTo(0, 0);
+                      }}
                       className={
                         currentPage === page
                           ? "bg-accent hover:bg-accent/90 text-white border-2 border-accent"
@@ -151,7 +164,10 @@ export default function BlogsPage() {
                   ))}
                   <Button
                     variant="outline"
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    onClick={() => {
+                        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                        window.scrollTo(0, 0);
+                    }}
                     disabled={currentPage === totalPages}
                     className="border-2 border-border hover:border-accent hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
                   >

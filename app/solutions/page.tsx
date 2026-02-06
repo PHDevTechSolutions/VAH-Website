@@ -1,70 +1,122 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import type { Metadata } from "next";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
-import { Suspense } from "react";
-import { SolutionsContent } from "@/components/solutions-content";
-import { SolutionsScrollNav } from "@/components/solutions-scroll-nav";
-import { SolutionsCartDrawer } from "@/components/solutions-cart-drawer"; // Import here
-
-export const metadata: Metadata = {
-  title: "Solutions | Buildchem",
-  description:
-    "Complete catalog of concrete admixtures and construction chemicals.",
-};
+import { db } from "@/lib/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function SolutionsPage() {
+  const [solutions, setSolutions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSolutions = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "solutions"));
+        const solutionsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setSolutions(solutionsData);
+      } catch (error) {
+        console.error("Error fetching solutions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSolutions();
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-white flex items-center justify-center">
+        <Loader2 className="animate-spin text-accent" size={40} />
+      </main>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
       <Navbar />
 
-      {/* FLOATING CART BUTTON */}
-      <SolutionsCartDrawer />
-
-      <section className="relative h-[60vh] flex items-center justify-center pt-24 overflow-hidden">
-        {/* ... hero content remains the same ... */}
-        <div className="absolute inset-0">
-          <Image
-            src="/images/HERO.png"
-            alt="Modern corporate buildings"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 text-balance">
-            BuildChem Solutions
+      {/* Hero Section */}
+      <section className="relative h-[40vh] min-h-[300px] flex items-center justify-center">
+        <Image
+          src="/images/HERO.png"
+          alt="Solutions Hero"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="relative z-10 text-center px-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 uppercase tracking-tighter italic">
+            Our <span className="text-accent">Solutions</span>
           </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto text-pretty">
-            Advanced concrete admixtures and construction chemicals for superior
-            performance and durability.
+          <p className="text-lg md:text-xl text-white/90 font-medium max-w-2xl mx-auto uppercase tracking-widest">
+            Comprehensive industrial solutions for your business needs
           </p>
         </div>
       </section>
 
-      <Suspense fallback={<div>Loading solutions...</div>}>
-        <SolutionsScrollNav
-          solutions={[
-            {
-              index: 1,
-              title: "Superplasticizers & High-Range Water Reducers",
-            },
-            { index: 2, title: "Set Retarders & Accelerators" },
-            { index: 3, title: "Underwater Concrete Solutions" },
-            { index: 4, title: "Waterproofing Solutions" },
-            { index: 5, title: "Soil Stabilization & Road Foundation" },
-            { index: 6, title: "Mould Release Agents" },
-            { index: 7, title: "Corrosion Protection Solutions" },
-            { index: 8, title: "Curing Compounds" },
-            { index: 9, title: "Cement Processing & Grinding Aids" },
-            { index: 10, title: "Cleaning & Surface Preparation Chemicals" },
-          ]}
-        />
-        <SolutionsContent />
-      </Suspense>
+      <section className="py-16 md:py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Responsive Grid:
+              Mobile: grid-cols-2 (2 cards)
+              Tablet: md:grid-cols-3 (3 cards) 
+              Desktop: lg:grid-cols-4 (4 cards)
+          */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+            {solutions.map((solution, index) => (
+              <Link 
+                href={`/solutions/${solution.id}`} 
+                key={solution.id}
+                className="block group"
+              >
+                <div
+                  className="h-full bg-white border border-border group-hover:border-accent group-hover:shadow-xl overflow-hidden transition-all duration-500 animate-fade-in relative rounded-xl flex flex-col"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
+                  {/* Image Container */}
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={solution.mainImage || "/placeholder.svg"}
+                      alt={solution.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="p-4 md:p-6 flex-grow flex flex-col justify-center">
+                    <h3 className="text-sm md:text-lg font-black text-black group-hover:text-accent transition-colors duration-500 uppercase leading-tight tracking-tight">
+                      {solution.title}
+                    </h3>
+                    <div className="mt-2 w-8 h-1 bg-accent transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {solutions.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-xl font-bold text-muted-foreground uppercase tracking-widest">
+                No solutions available at this time.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
       <Footer />
-    </div>
+    </main>
   );
 }

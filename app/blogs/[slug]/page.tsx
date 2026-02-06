@@ -79,151 +79,164 @@ export default function BlogDetailPage() {
             </nav>
 
                <article className="max-w-5xl mx-auto px-6 py-16">
-                {/* --- BLOG HEADER --- */}
-                <header className="mb-12">         
-                    {blog.sections?.[0]?.type === "paragraph" && (
-                        <div className="text-base text-gray-700 leading-relaxed mb-10">
-                            <style jsx global>{`
-                              .blog-intro h1 {
-                                font-size: 2em;
-                                font-weight: 800;
-                                margin-top: 0.67em;
-                                margin-bottom: 0.67em;
-                                line-height: 1.2;
-                              }
-                              .blog-intro h2 {
-                                font-size: 1.5em;
-                                font-weight: 700;
-                                margin-top: 0.83em;
-                                margin-bottom: 0.83em;
-                                line-height: 1.3;
-                              }
-                              .blog-intro p {
-                                margin: 1em 0;
-                              }
-                              .blog-intro strong {
-                                font-weight: 700;
-                              }
-                              .blog-intro em {
-                                font-style: italic;
-                              }
-                              .blog-intro ul {
-                                list-style-type: disc;
-                                padding-left: 1.5em;
-                                margin: 1em 0;
-                              }
-                              .blog-intro ol {
-                                list-style-type: decimal;
-                                padding-left: 1.5em;
-                                margin: 1em 0;
-                              }
-                              .blog-intro li {
-                                margin: 0.25em 0;
-                              }
-                              .blog-intro a {
-                                color: rgba(210, 140, 42, 1);
-                                text-decoration: underline;
-                                cursor: pointer;
-                              }
-                              .blog-intro a:hover {
-                                color: #000;
-                              }
-                            `}</style>
-                            <div 
-                                className="blog-intro"
-                                dangerouslySetInnerHTML={{ __html: blog.sections[0].description }}
-                            />
-                        </div>
-                    )}
-                </header>
+        {/* --- BLOG HEADER --- */}
+        <header className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-6"></h1>
 
-                {/* --- CONTENT SECTIONS --- */}
-                <div className="space-y-16">
-                    {blog.sections?.map((section: any, index: number) => {
-                        // Skip the first paragraph since we used it in the header
-                        if (index === 0 && section.type === "paragraph") return null;
+          {/* --- ITO YUNG FIX SA COVER IMAGE --- */}
+          {blog.coverImage && (
+            <div className="w-full mb-10 overflow-hidden rounded-2xl shadow-lg">
+              <img
+                src={blog.coverImage}
+                alt={blog.title || "Blog Cover"}
+                className="w-full h-auto object-cover max-h-[500px]"
+              />
+            </div>
+          )}
+          {blog.sections?.[0]?.type === "paragraph" && (
+            <div className="text-base text-gray-700 leading-relaxed mb-10">
+              <style jsx global>{`
+                .blog-intro h1 {
+                  font-size: 2em;
+                  font-weight: 800;
+                  margin-top: 0.67em;
+                  margin-bottom: 0.67em;
+                  line-height: 1.2;
+                }
+                .blog-intro h2 {
+                  font-size: 1.5em;
+                  font-weight: 700;
+                  margin-top: 0.83em;
+                  margin-bottom: 0.83em;
+                  line-height: 1.3;
+                }
+                .blog-intro p {
+                  margin: 1em 0;
+                }
+                .blog-intro strong {
+                  font-weight: 700;
+                }
+                .blog-intro em {
+                  font-style: italic;
+                }
+                .blog-intro ul {
+                  list-style-type: disc;
+                  padding-left: 1.5em;
+                  margin: 1em 0;
+                }
+                .blog-intro ol {
+                  list-style-type: decimal;
+                  padding-left: 1.5em;
+                  margin: 1em 0;
+                }
+                .blog-intro li {
+                  margin: 0.25em 0;
+                }
+                .blog-intro a {
+                  color: #d11a2a;
+                  text-decoration: underline;
+                  cursor: pointer;
+                }
+                .blog-intro a:hover {
+                  color: #000;
+                }
+              `}</style>
+              <div
+                className="blog-intro"
+                dangerouslySetInnerHTML={{
+                  __html: blog.sections[0].description,
+                }}
+              />
+            </div>
+          )}
+        </header>
 
-                        return (
-                            <div key={index} className="flex flex-col gap-6">
-                                {/* Section Title */}
-                                {section.title && (
-                                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
-                                        {section.title}
-                                    </h2>
-                                )}
+        {/* --- CONTENT SECTIONS --- */}
+        <div className="space-y-16">
+          {blog.sections?.map((section: any, index: number) => {
+            // Skip the first paragraph since we used it in the header
+            if (index === 0 && section.type === "paragraph") return null;
 
-                                {/* Section Image - If it exists, show it first (Box Style) */}
-                                {section.imageUrl && (
-                                    <div className="w-full bg-gray-50 border border-gray-100 overflow-hidden rounded-2xl">
-                                        <img 
-                                            src={section.imageUrl}
-                                             
-                                            alt={section.title || "Blog section"} 
-                                            className="w-full h-auto object-contain"
-                                        />
-                                    </div>
-                                )}
+            return (
+              <div key={index} className="flex flex-col gap-6">
+                {/* Section Title */}
+                {section.title && (
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+                    {section.title}
+                  </h2>
+                )}
 
-                                {/* Section Description */}
-                                {section.description && (
-                                    <div className="text-base text-gray-700 leading-relaxed">
-                                        <style jsx global>{`
-                                          .blog-content h1 {
-                                            font-size: 2em;
-                                            font-weight: 800;
-                                            margin-top: 0.67em;
-                                            margin-bottom: 0.67em;
-                                            line-height: 1.2;
-                                          }
-                                          .blog-content h2 {
-                                            font-size: 1.5em;
-                                            font-weight: 700;
-                                            margin-top: 0.83em;
-                                            margin-bottom: 0.83em;
-                                            line-height: 1.3;
-                                          }
-                                          .blog-content p {
-                                            margin: 1em 0;
-                                          }
-                                          .blog-content strong {
-                                            font-weight: 700;
-                                          }
-                                          .blog-content em {
-                                            font-style: italic;
-                                          }
-                                          .blog-content ul {
-                                            list-style-type: disc;
-                                            padding-left: 1.5em;
-                                            margin: 1em 0;
-                                          }
-                                          .blog-content ol {
-                                            list-style-type: decimal;
-                                            padding-left: 1.5em;
-                                            margin: 1em 0;
-                                          }
-                                          .blog-content li {
-                                            margin: 0.25em 0;
-                                          }
-                                          .blog-content a {
-                                            color: rgba(210, 140, 42, 1);
-                                            text-decoration: underline;
-                                            cursor: pointer;
-                                          }
-                                          .blog-content a:hover {
-                                            color: #000;
-                                          }
-                                        `}</style>
-                                        <div 
-                                            className="blog-content"
-                                            dangerouslySetInnerHTML={{ __html: section.description }}
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
-            </article>
+                {/* Section Image - If it exists, show it first (Box Style) */}
+                {section.imageUrl && (
+                  <div className="w-full bg-gray-50 border border-gray-100 overflow-hidden rounded-2xl">
+                    <img
+                      src={section.imageUrl}
+                      alt={section.title || "Blog section"}
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                )}
+
+                {/* Section Description */}
+                {section.description && (
+                  <div className="text-base text-gray-700 leading-relaxed">
+                    <style jsx global>{`
+                      .blog-content h1 {
+                        font-size: 2em;
+                        font-weight: 800;
+                        margin-top: 0.67em;
+                        margin-bottom: 0.67em;
+                        line-height: 1.2;
+                      }
+                      .blog-content h2 {
+                        font-size: 1.5em;
+                        font-weight: 700;
+                        margin-top: 0.83em;
+                        margin-bottom: 0.83em;
+                        line-height: 1.3;
+                      }
+                      .blog-content p {
+                        margin: 1em 0;
+                      }
+                      .blog-content strong {
+                        font-weight: 700;
+                      }
+                      .blog-content em {
+                        font-style: italic;
+                      }
+                      .blog-content ul {
+                        list-style-type: disc;
+                        padding-left: 1.5em;
+                        margin: 1em 0;
+                      }
+                      .blog-content ol {
+                        list-style-type: decimal;
+                        padding-left: 1.5em;
+                        margin: 1em 0;
+                      }
+                      .blog-content li {
+                        margin: 0.25em 0;
+                      }
+                      .blog-content a {
+                        color: #d11a2a;
+                        text-decoration: underline;
+                        cursor: pointer;
+                      }
+                      .blog-content a:hover {
+                        color: #000;
+                      }
+                    `}</style>
+                    <div
+                      className="blog-content"
+                      dangerouslySetInnerHTML={{ __html: section.description }}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </article>
 
             <Footer />
             <ScrollToTop />

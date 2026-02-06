@@ -1,15 +1,17 @@
-import React from "react"
+import React from "react";
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/next";
+import { FloatingCartButton } from "@/components/floating-cart-button";
 import { Inter } from "next/font/google";
-import { CartProvider } from "@/components/cart-context";
+import { CartProvider } from "@/lib/cart-context";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   weight: ["400", "500", "600", "700", "800"],
-})
+});
 
 export const metadata: Metadata = {
   title: "Value Acquisitions Inc.",
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
-}
+};
 
 export default function RootLayout({
   children,
@@ -42,11 +44,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} font-sans antialiased`}>
+      <body className={`font-sans antialiased`}>
         <CartProvider>
           {children}
+          <FloatingCartButton />
+          <Analytics />
         </CartProvider>
-        <Toaster position="top-right" />
       </body>
     </html>
   );

@@ -72,38 +72,43 @@ export default function SolutionsPage() {
               Desktop: lg:grid-cols-4 (4 cards)
           */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-            {solutions.map((solution, index) => (
-              <Link 
-                href={`/solutions/${solution.id}`} 
-                key={solution.id}
-                className="block group"
-              >
-                <div
-                  className="h-full bg-white border border-border group-hover:border-accent group-hover:shadow-xl overflow-hidden transition-all duration-500 animate-fade-in relative rounded-xl flex flex-col"
-                  style={{ animationDelay: `${index * 0.05}s` }}
+            {solutions.map((solution, index) => {
+              // Use slug from SEO data, fallback to generated slug from title
+              const slug = solution.seo?.slug || solution.title.toLowerCase().replace(/[^\w ]+/g, "").replace(/ +/g, "-");
+              
+              return (
+                <Link 
+                  href={`/solutions/${slug}`} 
+                  key={solution.id}
+                  className="block group"
                 >
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={solution.mainImage || "/placeholder.svg"}
-                      alt={solution.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
-                  </div>
+                  <div
+                    className="h-full bg-white border border-border group-hover:border-accent group-hover:shadow-xl overflow-hidden transition-all duration-500 animate-fade-in relative rounded-xl flex flex-col"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    {/* Image Container */}
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={solution.mainImage || "/placeholder.svg"}
+                        alt={solution.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                    </div>
 
-                  {/* Text Content */}
-                  <div className="p-4 md:p-6 flex-grow flex flex-col justify-center">
-                    <h3 className="text-sm md:text-lg font-black text-black group-hover:text-accent transition-colors duration-500 uppercase leading-tight tracking-tight">
-                      {solution.title}
-                    </h3>
-                    <div className="mt-2 w-8 h-1 bg-accent transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                    {/* Text Content */}
+                    <div className="p-4 md:p-6 flex-grow flex flex-col justify-center">
+                      <h3 className="text-sm md:text-lg font-black text-black group-hover:text-accent transition-colors duration-500 uppercase leading-tight tracking-tight">
+                        {solution.title}
+                      </h3>
+                      <div className="mt-2 w-8 h-1 bg-accent transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
 
           {solutions.length === 0 && (

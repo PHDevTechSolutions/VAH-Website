@@ -20,6 +20,10 @@ interface Solution {
   id: string;
   title: string;
   label?: string;
+  seo?: {
+    slug?: string;
+    [key: string]: any;
+  };
   [key: string]: any;
 }
 
@@ -45,6 +49,7 @@ export function Navbar() {
             id: doc.id,
             title: doc.data().title,
             label: doc.data().label || "Other",
+            seo: doc.data().seo || {},
             ...doc.data(),
           }));
           setSolutions(solutionsData);
@@ -76,6 +81,12 @@ export function Navbar() {
     setIsSolutionsDropdownOpen(false);
     setIsMobileMenuOpen(false);
   }, [pathname]);
+
+  // Helper function to get solution URL
+  const getSolutionUrl = (solution: Solution) => {
+    const slug = solution.seo?.slug || solution.title.toLowerCase().replace(/[^\w ]+/g, "").replace(/ +/g, "-");
+    return `/solutions/${slug}`;
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? "bg-white shadow-md border-b" : "bg-transparent"}`}>
@@ -143,7 +154,10 @@ export function Navbar() {
                     <ul className="space-y-4">
                       {items.map((solution) => (
                         <li key={solution.id}>
-                          <Link href={`/solutions/${solution.id}`} className="text-[13px] font-medium text-gray-500 hover:text-black hover:translate-x-1 transition-all inline-block">
+                          <Link 
+                            href={getSolutionUrl(solution)} 
+                            className="text-[13px] font-medium text-gray-500 hover:text-black hover:translate-x-1 transition-all inline-block"
+                          >
                             {solution.title}
                           </Link>
                         </li>
@@ -187,7 +201,12 @@ export function Navbar() {
                           <ul className="space-y-3">
                             {items.map((sol) => (
                               <li key={sol.id}>
-                                <Link href={`/solutions/${sol.id}`} className="text-gray-500 font-bold uppercase text-xs tracking-tight">{sol.title}</Link>
+                                <Link 
+                                  href={getSolutionUrl(sol)} 
+                                  className="text-gray-500 font-bold uppercase text-xs tracking-tight"
+                                >
+                                  {sol.title}
+                                </Link>
                               </li>
                             ))}
                           </ul>

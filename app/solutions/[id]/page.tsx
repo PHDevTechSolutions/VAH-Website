@@ -7,7 +7,7 @@ import { Loader2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { SeriesAccordion } from "@/components/series-accordion";
 
 interface Solution {
@@ -17,6 +17,12 @@ interface Solution {
   mainImage: string;
   websites: string[];
   series: string[];
+  seo?: {
+    title?: string;
+    slug?: string;
+    description?: string;
+    canonical?: string;
+  };
 }
 
 interface Product {
@@ -33,26 +39,53 @@ interface Series {
 
 export default function SolutionDetailPage() {
   const params = useParams();
-  const solutionId = params.id as string;
+  const slug = params.id as string; // This is now a slug, not a document ID
 
-  const [solution, setSolution] = useState<any>(null);
+  const [solution, setSolution] = useState<Solution | null>(null);
   const [seriesList, setSeriesList] = useState<Series[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSolutionAndSeries = async () => {
       try {
-        const solutionDocRef = doc(db, "solutions", solutionId);
-        const solutionDoc = await getDoc(solutionDocRef);
+        let solutionData: Solution | null = null;
 
-        if (solutionDoc.exists()) {
-          const solutionData = {
+        // Method 1: Try to find by seo.slug
+        const solutionsRef = collection(db, "solutions");
+        const slugQuery = query(solutionsRef, where("seo.slug", "==", slug));
+        const slugSnapshot = await getDocs(slugQuery);
+
+        if (!slugSnapshot.empty) {
+          const solutionDoc = slugSnapshot.docs[0];
+          solutionData = {
             id: solutionDoc.id,
             ...solutionDoc.data(),
           } as Solution;
+        } else {
+          // Method 2: Fallback - fetch all solutions and match by generated slug
+          const allSolutionsSnapshot = await getDocs(solutionsRef);
+          
+          for (const doc of allSolutionsSnapshot.docs) {
+            const data = doc.data();
+            const generatedSlug = data.title
+              ?.toLowerCase()
+              .replace(/[^\w ]+/g, "")
+              .replace(/ +/g, "-");
+            
+            if (generatedSlug === slug || data.seo?.slug === slug) {
+              solutionData = {
+                id: doc.id,
+                ...data,
+              } as Solution;
+              break;
+            }
+          }
+        }
 
+        if (solutionData) {
           setSolution(solutionData);
 
+          // Fetch related series
           if (solutionData.series && Array.isArray(solutionData.series)) {
             const seriesPromises = solutionData.series.map(
               async (seriesId: string) => {
@@ -74,18 +107,21 @@ export default function SolutionDetailPage() {
             const seriesData = await Promise.all(seriesPromises);
             setSeriesList(seriesData.filter((s) => s !== null) as Series[]);
           }
+        } else {
+          setSolution(null);
         }
       } catch (error) {
         console.error("Error fetching solution:", error);
+        setSolution(null);
       } finally {
         setLoading(false);
       }
     };
 
-    if (solutionId) {
+    if (slug) {
       fetchSolutionAndSeries();
     }
-  }, [solutionId]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -102,9 +138,12 @@ export default function SolutionDetailPage() {
           <h1 className="text-4xl font-bold text-foreground mb-4">
             Solution Not Found
           </h1>
+          <p className="text-muted-foreground mb-6">
+            The solution "{slug}" could not be found.
+          </p>
           <Link
             href="/solutions"
-            className="text-accent underline font-semibold uppercase tracking-widest text-sm"
+            className="text-accent underline font-semibold uppercase tracking-widest text-sm hover:text-accent/80 transition-colors"
           >
             Return to Solutions
           </Link>
@@ -123,7 +162,7 @@ export default function SolutionDetailPage() {
           {solution.mainImage && (
             <Image
               src={solution.mainImage || "/placeholder.svg"}
-              alt={solution.title}
+              alt={solution.seo?.title || solution.title}
               fill
               className="object-cover"
               priority

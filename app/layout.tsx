@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   description:
     "Leading industrial holdings company managing construction, cement production, and industrial materials companies with strength, reliability, and scale.",
   generator: "v0.app",
+  // ADDED VERIFICATION HERE
+  verification: {
+    google: "google9418c893d0d47009",
+  },
   icons: {
     icon: [
       {
@@ -44,10 +48,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <body className={`${inter.variable} font-sans antialiased`}>
         <CartProvider>
           {children}
           <FloatingCartButton />
+          <Toaster position="top-right" />
           <Analytics />
         </CartProvider>
       </body>

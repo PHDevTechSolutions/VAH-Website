@@ -6,7 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronRight, ExternalLink } from "lucide-react";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -15,12 +15,13 @@ type PageProps = {
 export default async function CompanyDetailPage({ params }: PageProps) {
   const { id } = await params;
 
-  // Fetching from 'companies' collection
   const docRef = doc(db, "company", id);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) notFound();
   const company = docSnap.data();
+
+  const isBuildchem = id === "99Wh5JciHNYPC3mB1efl";
 
   return (
     <main className="min-h-screen bg-white">
@@ -68,16 +69,31 @@ export default async function CompanyDetailPage({ params }: PageProps) {
                 </div>
 
                 <div className="flex flex-col gap-4 pt-4 lg:pt-10">
-                  <Link href="/solutions">
-                    <button className="w-full bg-accent hover:brightness-110 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/20">
-                      View Our Solutions <ChevronRight size={20} />
-                    </button>
-                  </Link>
-                  <Link href="/contact">
-                    <button className="w-full  bg-slate-900 hover:bg-slate-800 text-white hover:border-accent hover:text-accen px-8 py-4 rounded-xl font-bold transition-all">
-                      Get In Touch
-                    </button>
-                  </Link>
+                  {isBuildchem ? (
+                    /* Buildchem: Visit Our Site button only */
+                    <a
+                      href="https://buildchemsolutions.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-accent hover:brightness-110 text-black px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/20"
+                    >
+                      Visit Our Site <ExternalLink size={18} />
+                    </a>
+                  ) : (
+                    /* All other companies: original buttons */
+                    <>
+                      <Link href="/solutions">
+                        <button className="w-full bg-accent hover:brightness-110 text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/20">
+                          View Our Solutions <ChevronRight size={20} />
+                        </button>
+                      </Link>
+                      <Link href="/contact">
+                        <button className="w-full bg-slate-900 hover:bg-slate-800 text-white hover:border-accent hover:text-accent px-8 py-4 rounded-xl font-bold transition-all">
+                          Get In Touch
+                        </button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -117,17 +133,15 @@ export default async function CompanyDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Partners Slider - Only renders if the array exists and has items */}
+              {/* Partners Slider */}
               {company.partnersImage && company.partnersImage.length > 0 && (
                 <div className="pt-16 border-t border-gray-100">
                   <p className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-12">
                     Strategic Partners & Affiliates
                   </p>
                   <div className="relative px-4">
-                    {/* Edge Fades for Blending */}
                     <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
                     <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
                     <InfiniteSlider gap={100} speed={40}>
                       {company.partnersImage.map((url: string, idx: number) => (
                         <div
@@ -137,7 +151,6 @@ export default async function CompanyDetailPage({ params }: PageProps) {
                           <img
                             src={url}
                             alt="Partner"
-                            // Increased from h-10 md:h-12 to h-16 md:h-20
                             className="h-26 md:h-30 w-auto object-contain opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-700"
                           />
                         </div>

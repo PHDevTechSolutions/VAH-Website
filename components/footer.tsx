@@ -85,7 +85,6 @@ export function Footer() {
                 { name: "Home", href: "/" },
                 { name: "About Us", href: "/about" },
                 { name: "Our Companies", href: "/companies" },
-                { name: "Solutions", href: "/solutions" },
                 { name: "Contact Us", href: "/contact" },
                 { name: "Careers", href: "/careers" },
               ].map((link) => (

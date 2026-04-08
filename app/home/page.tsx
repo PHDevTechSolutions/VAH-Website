@@ -121,23 +121,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SOLUTIONS SECTION */}
-        <section className="py-24 bg-black text-white">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-4">
-              <h2 className="text-4xl md:text-5xl font-bold text-balance text-left">
-                Our Solutions
-              </h2>
-              <Link href="/solutions">
-                <GoldButton>View our Solutions</GoldButton>
-              </Link>
-            </div>
-            <div className="mt-16">
-              <SolutionsCarousel />
-            </div>
-          </div>
-        </section>
-
         {/* DYNAMIC OUR COMPANIES SECTION */}
         <section className="py-24 bg-background">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
